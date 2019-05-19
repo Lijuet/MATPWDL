@@ -6,4 +6,284 @@
     android:layout_height="match_parent"
     tools:context=".AddEditRuleActivity">
 
+    <EditText
+        android:id="@+id/editText_editRule"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="내용을 입력하세요"
+        android:inputType="textMultiLine"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="22dp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Constraintlayout_timeSetting"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintWidth_percent="0.9">
+
+        <TextView
+            android:id="@+id/textView_setTime"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="시간 설정"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.105"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.15"
+            app:layout_constraintWidth_percent="0.45"
+            tools:layout_editor_absoluteX="38dp"
+            tools:layout_editor_absoluteY="33dp" />
+
+        <TextView
+            android:id="@+id/textView_day"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="요일"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintWidth_percent="0.15"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="154dp" />
+
+        <TextView
+            android:id="@+id/textView_time"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="시간"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.6"
+            app:layout_constraintWidth_percent="0.15"
+            tools:layout_editor_absoluteX="28dp"
+            tools:layout_editor_absoluteY="194dp" />
+
+        <TextView
+            android:id="@+id/textView_repeat"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="반복"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8"
+            app:layout_constraintWidth_percent="0.15"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="230dp" />
+
+        <CheckBox
+            android:id="@+id/checkBox_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintTop_toTopOf="@id/textView_repeat"
+            app:layout_constraintBottom_toBottomOf="@id/textView_repeat"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_bias="0.165"
+            tools:layout_editor_absoluteX="99dp"
+            tools:layout_editor_absoluteY="156dp" />
+
+        <EditText
+            android:id="@+id/editText_hour"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ems="10"
+            android:inputType="time"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintHorizontal_bias="0.175"
+            app:layout_constraintTop_toTopOf="@id/textView_time"
+            app:layout_constraintBottom_toBottomOf="@id/textView_time"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="99dp"
+            tools:layout_editor_absoluteY="107dp" />
+
+        <TextView
+            android:id="@+id/textView_hour"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="시"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintHorizontal_bias="0.295"
+            app:layout_constraintTop_toTopOf="@id/textView_time"
+            app:layout_constraintBottom_toBottomOf="@id/textView_time"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="166dp"
+            tools:layout_editor_absoluteY="118dp" />
+
+        <EditText
+            android:id="@+id/editText_minute"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ems="10"
+            android:inputType="time"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintHorizontal_bias="0.375"
+            app:layout_constraintTop_toTopOf="@id/textView_time"
+            app:layout_constraintBottom_toBottomOf="@id/textView_time"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="235dp"
+            tools:layout_editor_absoluteY="108dp" />
+
+        <TextView
+            android:id="@+id/textView_minute"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="분"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintTop_toTopOf="@id/textView_time"
+            app:layout_constraintBottom_toBottomOf="@id/textView_time"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="294dp"
+            tools:layout_editor_absoluteY="119dp" />
+
+        <LinearLayout
+            android:id="@+id/LinearLayout_days"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/textView_day"
+            app:layout_constraintLeft_toRightOf="@id/textView_day"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textView_day">
+
+            <CheckBox
+                android:id="@+id/checkBox_mon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="월"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_tue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="화" />
+
+            <CheckBox
+                android:id="@+id/checkBox_wed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="수" />
+
+            <CheckBox
+                android:id="@+id/checkBox_thu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="목" />
+
+            <CheckBox
+                android:id="@+id/checkBox_fri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="금" />
+
+            <CheckBox
+                android:id="@+id/checkBox_sat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="토" />
+
+            <CheckBox
+                android:id="@+id/checkBox_sun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="일" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button_addmember"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="멤버 추가/삭제"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.965"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="저장"
+        app:layout_constraintHeight_percent="1"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintBottom_toBottomOf="@id/button_addmember"
+        app:layout_constraintTop_toTopOf="@id/button_addmember"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        tools:layout_editor_absoluteX="199dp"
+        tools:layout_editor_absoluteY="359dp" />
+
+    <EditText
+        android:id="@+id/editText_ruleTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="제목을 입력하세요"
+        app:layout_constraintHeight_percent="0.075"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.025"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="16dp" />
+
 </android.support.constraint.ConstraintLayout>
