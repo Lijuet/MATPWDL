@@ -64,15 +64,18 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/btnOpt1_im"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="즉시"/>
                 <RadioButton
+                    android:id="@+id/btnOpt2_3m"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3분 후"/>
                 <RadioButton
+                    android:id="@+id/btnOpt3_5m"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5분 후"/>
