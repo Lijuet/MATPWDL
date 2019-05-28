@@ -44,44 +44,7 @@
             android:layout_weight="4"
             android:hint="보내고 싶은 메세지를 쓰시오"
             android:gravity="start"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="언제 보낼까요?"
-                android:textSize="20dp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:layout_marginBottom="15dp"/>
-            <RadioGroup
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/btnOpt1_im"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="즉시"/>
-                <RadioButton
-                    android:id="@+id/btnOpt2_3m"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3분 후"/>
-                <RadioButton
-                    android:id="@+id/btnOpt3_5m"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5분 후"/>
-
-            </RadioGroup>
-        </LinearLayout>
         <Button
             android:id="@+id/button_MyKnockSend"
             android:layout_width="120dp"

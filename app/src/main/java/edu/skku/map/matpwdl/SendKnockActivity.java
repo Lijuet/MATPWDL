@@ -1,5 +1,6 @@
 package edu.skku.map.matpwdl;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,16 +19,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SendKnockActivity extends AppCompatActivity {
     private DatabaseReference mPostReference;
     EditText etMyKnockReciever, etMyKnockContent;
-    RadioButton btnOpt1_Im, btnOpt2_3m, btnOpt3_5m;
     Button btnSendKnock;
 
     String contents, reciever;
+    String knock_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,17 +40,13 @@ public class SendKnockActivity extends AppCompatActivity {
         etMyKnockReciever = findViewById(R.id.editText_MyKnockReciever);
         etMyKnockContent = findViewById(R.id.editText_MyKnockContent);
         btnSendKnock = findViewById(R.id.button_MyKnockSend);
-        btnOpt1_Im = findViewById(R.id.btnOpt1_im);
-        btnOpt2_3m = findViewById(R.id.btnOpt2_3m);
-        btnOpt3_5m = findViewById(R.id.btnOpt3_5m);
-
-        btnOpt1_Im.setOnClickListener(optionOnClickLister);
-        btnOpt2_3m.setOnClickListener(optionOnClickLister);
-        btnOpt3_5m.setOnClickListener(optionOnClickLister);
 
         //set firebase
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+        //
+        Intent intent = getIntent();
+        knock_id = intent.getStringExtra("rule_id");
 
         //when click button, new knock sent
         btnSendKnock.setOnClickListener(new Button.OnClickListener() {
@@ -56,11 +55,11 @@ public class SendKnockActivity extends AppCompatActivity {
                 //get contents
                 contents = etMyKnockContent.getText().toString();
                 reciever = etMyKnockReciever.getText().toString();
-                //make new knock
 
                 //post firebase
-                if (contents.length() != 0 && reciever.length() != 0) {
+                if (contents.length() == 0 && reciever.length() == 0) {//todo 받는 사람 팝업 메뉴로 선택하기
                     Toast.makeText(SendKnockActivity.this, "Data is missing", Toast.LENGTH_SHORT).show();
+
                 } else {
                     postFirebaseDatabase(true);
                 }
@@ -68,29 +67,39 @@ public class SendKnockActivity extends AppCompatActivity {
         });
     }
 
-    RadioButton.OnClickListener optionOnClickLister = new RadioButton.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            //Depending on radion button option check, determine when a knock will send
-        }
-    };
 
     public void postFirebaseDatabase(boolean add) {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
+
+        //내용 채워넣기
+        //1.내용, 보내는 사람, 받는 사람, 날짜, id 으로 knock 만들기
+        //todo 2. 시간 제한
         if (add) {
-            Knock post = new Knock(contents,  "1234"/* todo 내정보 class에서 가져오기*/, reciever, "201905271557"/* todo 날짯 설정*/);
+            //보내는 시간 얻음.
+            long now = System.currentTimeMillis();
+            Date date = new Date(now);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+            String time = sdf.format(date);
+
+            Knock post = new Knock(contents,  "1234"/* todo 내정보 class에서 가져오기*/, reciever, time, knock_id);
             postValues = post.toMap();
         }
-        //childUpdates.put("/memo_list/" + content, postValues);
-        mPostReference.updateChildren(childUpdates);
-        clearET();
-    }
 
+        //만약 시간이 15분이내 보낸 흔적이 3회이하이고
+        if(/*todo */true) {
+            childUpdates.put("/ROOM/" + "room1" + "/knock/knock" + knock_id, postValues);
+            mPostReference.updateChildren(childUpdates);
+            clearET();
+            Toast.makeText(getApplicationContext(), "Knock를 보냈습니다.", Toast.LENGTH_SHORT).show();
+        }//그렇지 않으면 거절 메세지 띄우기
+        else{
+            //
+        }
+    }
 
     public void clearET() {
         etMyKnockReciever.setText("");
         etMyKnockContent.setText("");
-
     }
 }

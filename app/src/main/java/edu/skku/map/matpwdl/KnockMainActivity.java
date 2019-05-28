@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 //myKnocklist와 mainKnockList를 설정할 adpater입니다.
 //item은 Knock.activity입니다.
+//todo 마지막 항목이 잘림
 
 public class KnockMainActivity extends AppCompatActivity {
     private DatabaseReference kPostReference;
@@ -30,6 +31,8 @@ public class KnockMainActivity extends AppCompatActivity {
     KnockAdapter myKnockAdapter;
     ArrayList<Knock> allKnocks;
     ArrayList<Knock> myKnocks;
+    String biggest_knock_id = "0";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,8 @@ public class KnockMainActivity extends AppCompatActivity {
         allKnocks = new ArrayList<>();
         myKnocks = new ArrayList<>();
 
-        allKnockAdapter = new KnockAdapter(this, allKnocks);
-        myKnockAdapter = new KnockAdapter(this, myKnocks);
+        allKnockAdapter = new KnockAdapter(this, allKnocks, 1/*allKnockMode*/);
+        myKnockAdapter = new KnockAdapter(this, myKnocks, 0)/*myKnockMode*/;
 
         lvMainKnockList.setAdapter(allKnockAdapter);
         lvMyKnockList.setAdapter(myKnockAdapter);
@@ -75,6 +78,8 @@ public class KnockMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentSendKnock = new Intent(KnockMainActivity.this, SendKnockActivity.class);
+                String knock_id = Integer.toString((Integer.parseInt(biggest_knock_id) + 1));
+                intentSendKnock.putExtra("rule_id",knock_id);
                 startActivity(intentSendKnock);
             }
         });
@@ -94,12 +99,16 @@ public class KnockMainActivity extends AppCompatActivity {
                 Log.d("onDataChange", "before Sanpshot");
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Knock getKnock = postSnapshot.getValue(Knock.class);
-                    String[] info = {getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver(), getKnock.getDate()};
-                    allKnocks.add(new Knock(info[0], info[1], info[2], info[3]));
+                    String[] info = {getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver(), getKnock.getDate(), getKnock.getKnockID()};
+                    allKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
 
                     // todo : 사용자 정보를 가져와 info[2]와 같으면 myKnocks에 추가하기
-                    if(info[2].equals("1234")){
-                        myKnocks.add(new Knock(info[0], info[1], info[2], info[3]));
+                    if(info[1].equals("1234") || info[2].equals("1234")){
+                        myKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
+                    }
+                    //가장 큰 key 값 찾기
+                    if(Integer.parseInt(getKnock.getKnockID())>Integer.parseInt(biggest_knock_id)){
+                        biggest_knock_id = getKnock.getKnockID();
                     }
                 }
                 Log.d("onDataChange", "finish add data");
