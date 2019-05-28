@@ -3,11 +3,11 @@ package edu.skku.map.matpwdl;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MyKnockActivity extends AppCompatActivity {
+public class KnockDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_knock);
+        setContentView(R.layout.activity_knock_detail);
     }
 }

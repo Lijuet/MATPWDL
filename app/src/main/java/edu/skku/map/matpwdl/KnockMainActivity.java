@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,8 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 //myKnocklist와 mainKnockList를 설정할 adpater입니다.
 //item은 Knock.activity입니다.
@@ -64,11 +61,11 @@ public class KnockMainActivity extends AppCompatActivity {
 
 
 
-        //if we click the list my knock list, go to MyKnockActivity
+        //if we click the list my knock list, go to KnockDetailActivity
         lvMyKnockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intentMyKnock = new Intent(KnockMainActivity.this, MyKnockActivity.class);
+                Intent intentMyKnock = new Intent(KnockMainActivity.this, KnockDetailActivity.class);
                 startActivity(intentMyKnock);
             }
         });
@@ -97,12 +94,12 @@ public class KnockMainActivity extends AppCompatActivity {
                 Log.d("onDataChange", "before Sanpshot");
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Knock getKnock = postSnapshot.getValue(Knock.class);
-                    String[] info = {getKnock.getTitle(), getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver(), getKnock.getDate()};
-                    allKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
+                    String[] info = {getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver(), getKnock.getDate()};
+                    allKnocks.add(new Knock(info[0], info[1], info[2], info[3]));
 
                     // todo : 사용자 정보를 가져와 info[2]와 같으면 myKnocks에 추가하기
                     if(info[2].equals("1234")){
-                        myKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
+                        myKnocks.add(new Knock(info[0], info[1], info[2], info[3]));
                     }
                 }
                 Log.d("onDataChange", "finish add data");

@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SendKnockActivity"></activity>
+        <activity android:name=".SendKnockActivity" />
         <activity android:name=".RuleMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RoommateListActivity" />
-        <activity android:name=".MyKnockActivity" />
+        <activity android:name=".KnockDetailActivity" />
         <activity android:name=".MakeRoomActivity" />
         <activity android:name=".KnockMainActivity">
             <intent-filter>
