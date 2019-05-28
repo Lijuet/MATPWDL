@@ -1,20 +1,39 @@
 package edu.skku.map.matpwdl;
 
-public class ListViewRuleItem {
-    private String title;
-    private String content;
-    private String week;
-    private String time;
-    private String member;
-    private String rule_id;
+import java.util.HashMap;
+import java.util.Map;
 
-    public void setInformation(String title, String content, String week, String time, String member, String rule_id) {
+public class ListViewRuleItem {
+    public String content;
+    public String day;
+    public String member;
+    public int repeat;
+    public String rule_id;
+    public String time;
+    public String title;
+
+    public ListViewRuleItem() { }
+
+    public ListViewRuleItem(String content, String day, String member, int repeat, String rule_id, String time, String title) {
         this.title = title;
         this.content = content;
-        this.week = week;
+        this.day = day;
         this.time = time;
         this.member = member;
         this.rule_id = rule_id;
+        this.repeat = repeat;
+    }
+
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("title",title);
+        result.put("content",content);
+        result.put("day",day);
+        result.put("time",time);
+        result.put("member",member);
+        result.put("rule_id",rule_id);
+        result.put("repeat",repeat);
+        return result;
     }
 
     public String getTitle(){
@@ -24,7 +43,7 @@ public class ListViewRuleItem {
         return content;
     }
     public String getWeek(){
-        return week;
+        return day;
     }
     public String getTime(){
         return time;
@@ -33,4 +52,6 @@ public class ListViewRuleItem {
         return member;
     }
     public String getRuleId() { return rule_id; }
+    public int getRepeat() { return repeat; }
+
 }

@@ -8,8 +8,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class AddEditRuleActivity extends AppCompatActivity {
 
+    private DatabaseReference rPostReference;
     Button button_addMember;
     Button button_save;
     CheckBox checkBox_repeat;
@@ -29,9 +36,7 @@ public class AddEditRuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_rule);
-
-        //Intent intent = getIntent();
-        //String rule_id =intent.getStringExtra("rule_id");
+        rPostReference = FirebaseDatabase.getInstance().getReference();
 
         button_addMember = findViewById(R.id.button_addmember);
         button_save = findViewById(R.id.button_save);
@@ -48,6 +53,34 @@ public class AddEditRuleActivity extends AppCompatActivity {
         editText_hour = findViewById(R.id.editText_hour);
         editText_minute = findViewById(R.id.editText_minute);
 
+        //글을 수정하는 경우 수정할 글의 정보를 받아온다.
+        Intent intent = getIntent();
+        final String rule_id = intent.getStringExtra("rule_id");
+        String day = intent.getStringExtra("day");
+        String time = intent.getStringExtra("time");
+        editText_ruleTitle.setText(intent.getStringExtra("title"));
+        editText_editRule.setText(intent.getStringExtra("content"));
+        if((intent.getIntExtra("repeat",0)) == 1){
+            checkBox_repeat.setChecked(true);
+        }
+        if(day.contains("월")) checkBox_mon.setChecked(true);
+        if(day.contains("화")) checkBox_tue.setChecked(true);
+        if(day.contains("수")) checkBox_wed.setChecked(true);
+        if(day.contains("목")) checkBox_thu.setChecked(true);
+        if(day.contains("금")) checkBox_fri.setChecked(true);
+        if(day.contains("토")) checkBox_sat.setChecked(true);
+        if(day.contains("일")) checkBox_sun.setChecked(true);
+        int time_index = time.indexOf(":");
+        String hour = "", minute = "";
+        for(int i=0; i<time_index; i++){
+            hour+=time.charAt(i);
+        }
+        for(int i=time_index+1; i<time.length(); i++){
+            minute+=time.charAt(i);
+        }
+        editText_hour.setText(hour);
+        editText_minute.setText(minute);
+
         button_addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,9 +91,38 @@ public class AddEditRuleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //작성한 정보 저장
+                String title = editText_ruleTitle.getText().toString();
+                String content = editText_editRule.getText().toString();
+                String time = editText_hour.getText().toString() + ":" + editText_minute.getText().toString();
+                String day = "";
+                int repeat = 0;
+                if(checkBox_repeat.isChecked()) repeat = 1;
+                if(checkBox_mon.isChecked()) day+="월 ";
+                if(checkBox_tue.isChecked()) day+="화 ";
+                if(checkBox_wed.isChecked()) day+="수 ";
+                if(checkBox_thu.isChecked()) day+="목 ";
+                if(checkBox_fri.isChecked()) day+="금" ;
+                if(checkBox_sat.isChecked()) day+="토 ";
+                if(checkBox_sun.isChecked()) day+="일 ";
+
+                String member="";//임시
+                //데이터베이스에 업로드
+                postFirebaseDatabase(true,title,content,day,member,repeat,rule_id,time);
+                //종료
                 finish();
             }
         });
 
+    }
+
+    public void postFirebaseDatabase(boolean add, String title, String content, String day, String member, int repeat, String rule_id, String time){
+        Map<String,Object> childUpdates = new HashMap<>();
+        Map<String,Object> postValues = null;
+        if(add){
+            ListViewRuleItem post = new ListViewRuleItem(content,day,member,repeat,rule_id,time,title);
+            postValues = post.toMap();
+        }
+        childUpdates.put("ROOM/room1/rule/rule"+rule_id , postValues);
+        rPostReference.updateChildren(childUpdates);
     }
 }
