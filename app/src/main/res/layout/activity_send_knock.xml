@@ -20,10 +20,11 @@
             android:text="받는 사람 :"
             android:textSize="17dp"
             android:textStyle="bold"/>
-        <EditText
-            android:id="@+id/editText_MyKnockReciever"
+        <MultiAutoCompleteTextView
+            android:id="@+id/autoText_MyKnockReciever"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:completionThreshold="1"
             android:layout_weight="5"/>
         <Button
             android:id="@+id/button_MyKnockReciever"

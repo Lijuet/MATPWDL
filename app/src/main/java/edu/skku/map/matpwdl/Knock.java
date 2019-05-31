@@ -14,14 +14,13 @@ public class Knock {
     private int count;
     private int read;
 
-    public Knock () { }
-
-    public Knock(String content, String sender, String receiver, String date, String knockID) {
-        this.content = content;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.date = date;
-        this.knockID = knockID;
+    public Knock(){}
+    public Knock(String _content, String _sender, String _receiver, String _date, String _knockID) {
+        this.content = _content;
+        this.sender = _sender;
+        this.receiver = _receiver;
+        this.date = _date;
+        this.knockID = _knockID;
         this.count= 0;
     }
 

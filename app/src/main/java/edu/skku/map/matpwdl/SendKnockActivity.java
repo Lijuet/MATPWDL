@@ -1,52 +1,61 @@
 package edu.skku.map.matpwdl;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SendKnockActivity extends AppCompatActivity {
     private DatabaseReference mPostReference;
-    EditText etMyKnockReciever, etMyKnockContent;
+    EditText etMyKnockContent;
+    MultiAutoCompleteTextView atMyKnockReciever;
     Button btnSendKnock;
+    MyInformation myInfo;
 
-    String contents, reciever;
-    String knock_id;
+    private String contents;
+    private String[] recievers;
+    private String knock_id;
+    private ArrayList<String> members;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_knock);
 
         //find id
-        etMyKnockReciever = findViewById(R.id.editText_MyKnockReciever);
+        atMyKnockReciever = findViewById(R.id.autoText_MyKnockReciever);
         etMyKnockContent = findViewById(R.id.editText_MyKnockContent);
         btnSendKnock = findViewById(R.id.button_MyKnockSend);
 
         //set firebase
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        //
+        //todo myInfo 초기화
         Intent intent = getIntent();
+        myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
         knock_id = intent.getStringExtra("rule_id");
+
+        //Auto complete Text View
+        members = new ArrayList<String>();
+        members = myInfo.getMembersID();
+        atMyKnockReciever.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line ,members));
+        atMyKnockReciever.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         //when click button, new knock sent
         btnSendKnock.setOnClickListener(new Button.OnClickListener() {
@@ -54,10 +63,10 @@ public class SendKnockActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //get contents
                 contents = etMyKnockContent.getText().toString();
-                reciever = etMyKnockReciever.getText().toString();
+                recievers = atMyKnockReciever.getText().toString().split(",");
 
                 //post firebase
-                if (contents.length() == 0 && reciever.length() == 0) {//todo 받는 사람 팝업 메뉴로 선택하기
+                if (contents.length() == 0 || recievers.length == 0) {//todo 받는 사람 팝업 메뉴로 선택하기
                     Toast.makeText(SendKnockActivity.this, "Data is missing", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -82,24 +91,26 @@ public class SendKnockActivity extends AppCompatActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
             String time = sdf.format(date);
 
-            Knock post = new Knock(contents,  "1234"/* todo 내정보 class에서 가져오기*/, reciever, time, knock_id);
-            postValues = post.toMap();
+            //Todo 내가 포함되어있으면 안보내기
+            for(String receiever :recievers) {
+                if(!receiever.equals(" ")) {
+                    Knock post = new Knock(contents, myInfo.getMyID(), receiever.trim(), time, knock_id);
+                    postValues = post.toMap();
+                    childUpdates.put("/ROOM/" + "room" + myInfo.getRoomID() + "/knock/knock" + knock_id, postValues);
+                    knock_id = String.valueOf(Integer.valueOf(knock_id) + 1);
+                }
+            }
+            knock_id = String.valueOf(Integer.valueOf(knock_id) - 1);
         }
 
-        //만약 시간이 15분이내 보낸 흔적이 3회이하이고
-        if(/*todo */true) {
-            childUpdates.put("/ROOM/" + "room1" + "/knock/knock" + knock_id, postValues);
-            mPostReference.updateChildren(childUpdates);
-            clearET();
-            Toast.makeText(getApplicationContext(), "Knock를 보냈습니다.", Toast.LENGTH_SHORT).show();
-        }//그렇지 않으면 거절 메세지 띄우기
-        else{
-            //
-        }
+        //todo 만약 시간이 15분이내 보낸 흔적이 3회이하이고
+        mPostReference.updateChildren(childUpdates);
+        clearET();
+        Toast.makeText(getApplicationContext(), "Knock를 보냈습니다.", Toast.LENGTH_SHORT).show();
     }
 
     public void clearET() {
-        etMyKnockReciever.setText("");
+        atMyKnockReciever.setText("");
         etMyKnockContent.setText("");
     }
 }

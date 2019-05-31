@@ -32,7 +32,7 @@ public class KnockMainActivity extends AppCompatActivity {
     ArrayList<Knock> allKnocks;
     ArrayList<Knock> myKnocks;
     String biggest_knock_id = "0";
-
+    MyInformation myInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,11 @@ public class KnockMainActivity extends AppCompatActivity {
         lvMyKnockList = findViewById(R.id.listView_MyKnockList);
         btnMakeKnock = findViewById(R.id.button_MakeKnock);
 
-        //initialize firebase
+        //getInstance of Firebase
         kPostReference = FirebaseDatabase.getInstance().getReference();
+
+        //initialize basic information
+        InitForTest(); //for TEST TODO delete it after logi section
 
 
         //make knockAdapter and set List
@@ -60,7 +63,6 @@ public class KnockMainActivity extends AppCompatActivity {
         lvMyKnockList.setAdapter(myKnockAdapter);
 
 
-        //initialize basic information
 
 
 
@@ -69,6 +71,7 @@ public class KnockMainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intentMyKnock = new Intent(KnockMainActivity.this, KnockDetailActivity.class);
+                intentMyKnock.putExtra("myInfo", myInfo);
                 startActivity(intentMyKnock);
             }
         });
@@ -78,8 +81,10 @@ public class KnockMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentSendKnock = new Intent(KnockMainActivity.this, SendKnockActivity.class);
+
                 String knock_id = Integer.toString((Integer.parseInt(biggest_knock_id) + 1));
                 intentSendKnock.putExtra("rule_id",knock_id);
+                intentSendKnock.putExtra("myInfo", myInfo);
                 startActivity(intentSendKnock);
             }
         });
@@ -99,11 +104,12 @@ public class KnockMainActivity extends AppCompatActivity {
                 Log.d("onDataChange", "before Sanpshot");
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Knock getKnock = postSnapshot.getValue(Knock.class);
-                    String[] info = {getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver(), getKnock.getDate(), getKnock.getKnockID()};
+
+                    String[] info = {getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver().trim(), getKnock.getDate(), getKnock.getKnockID()};
                     allKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
 
-                    // todo : 사용자 정보를 가져와 info[2]와 같으면 myKnocks에 추가하기
-                    if(info[1].equals("1234") || info[2].equals("1234")){
+                    // todo : 받은거랑 보낸거랑 구분하기
+                    if(info[1].equals(myInfo.getMyID()) || info[2].equals(myInfo.getMyID())){
                         myKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
                     }
                     //가장 큰 key 값 찾기
@@ -123,7 +129,19 @@ public class KnockMainActivity extends AppCompatActivity {
         Log.d("onDataChange", "reference change");
 
 
-    kPostReference.child("ROOM").child("room1"/* todo : 초반에 방 정보등 초기화하여 이용*/).child("knock").addValueEventListener(postListener);
+    kPostReference.child("ROOM").child("room"+myInfo.getRoomID()/* todo : 초반에 방 정보등 초기화하여 이용*/).child("knock").addValueEventListener(postListener);
+    }
 
+    private void InitForTest(){
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add("1234");
+        temp.add("4822");
+        temp.add("1111");
+        myInfo = new MyInformation();
+        myInfo.setMyID("1234");
+        myInfo.setName("member1_name");
+        myInfo.setRoomID("1");
+        myInfo.setStatus("재실");
+        myInfo.setMembersID(temp);
     }
 }
