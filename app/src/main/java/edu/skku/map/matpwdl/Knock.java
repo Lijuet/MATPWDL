@@ -1,11 +1,12 @@
 package edu.skku.map.matpwdl;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 //Knock Adpater에 넣을 리스트뷰 아이템입니다.
 
-public class Knock {
+public class Knock implements Serializable {
     private String content;
     private String sender;
     private String receiver;
@@ -22,6 +23,7 @@ public class Knock {
         this.date = _date;
         this.knockID = _knockID;
         this.count= 0;
+        this.read = 0;
     }
 
     public String getContent() { return content; }

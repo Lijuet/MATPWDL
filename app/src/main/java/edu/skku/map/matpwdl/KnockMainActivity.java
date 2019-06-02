@@ -1,6 +1,8 @@
 package edu.skku.map.matpwdl;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +41,9 @@ public class KnockMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knock_main);
 
+        //initialize basic information
+        InitForTest(); //for TEST TODO delete it after logi section
+
 
         //find View by ID
         lvMainKnockList = findViewById(R.id.listView_MainKnockList);
@@ -48,8 +53,6 @@ public class KnockMainActivity extends AppCompatActivity {
         //getInstance of Firebase
         kPostReference = FirebaseDatabase.getInstance().getReference();
 
-        //initialize basic information
-        InitForTest(); //for TEST TODO delete it after logi section
 
 
         //make knockAdapter and set List
@@ -63,6 +66,7 @@ public class KnockMainActivity extends AppCompatActivity {
         lvMyKnockList.setAdapter(myKnockAdapter);
 
 
+        //Popup message를 위한 async 설정 todo mainAPP 화면으로 이동
 
 
 
@@ -115,6 +119,30 @@ public class KnockMainActivity extends AppCompatActivity {
                     //가장 큰 key 값 찾기
                     if(Integer.parseInt(getKnock.getKnockID())>Integer.parseInt(biggest_knock_id)){
                         biggest_knock_id = getKnock.getKnockID();
+                    }
+
+                    Log.d("sendMessage","before if");
+                    //나에게 새로 들어온 message 라면
+                    if(info[2].equals(myInfo.getMyID()) && getKnock.getRead() == 0){
+                        Log.d("sendMessage","notice");
+                        PowerManager manager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+                        boolean bScreenOn = manager.isScreenOn();
+                        Log.d("sendMessage","check SCREENON");
+
+                        Intent intentPopup = new Intent(getApplicationContext(), KnockPopupActivity.class);
+                        intentPopup.putExtra("NEWKNOCK", getKnock);
+                        intentPopup.putExtra("myinfo",myInfo);
+                        if(bScreenOn){
+                            Log.d("sendMessage", "Screen ON");
+                            intentPopup.putExtra("SCREENON",true);
+                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentPopup);
+                        }else{
+                            Log.d("sendMessage", "Screen OFF");
+                            intentPopup.putExtra("SCREENON",false);
+                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentPopup);
+                        }
                     }
                 }
                 Log.d("onDataChange", "finish add data");
