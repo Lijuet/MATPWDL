@@ -21,76 +21,110 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RoommateListActivity extends AppCompatActivity {
+public class RoommateListActivity extends AppCompatActivity{
     private DatabaseReference mPostReference;
-    String ID, name = "";
-    EditText stET;
-    Button btn;
+    String ID,name,status = "";
+    EditText stET, newmemberET;
+    Button stbtn, newbtn;
     String mystatus = "";
     MyInformation myinfo;
     ListView listView;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_roommate_list);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_roommate_list );
         data = new ArrayList<String>();
-        stET = (EditText)findViewById(R.id.idET);
-        btn = (Button)findViewById(R.id.listbtn);
-        listView = (ListView)findViewById(R.id.roomlist);
+        stET = (EditText) findViewById( R.id.stET );
+        newmemberET = (EditText) findViewById( R.id.idET );
+        stbtn = (Button) findViewById( R.id.button );
+        newbtn = (Button) findViewById( R.id.listbtn );
+        listView = (ListView) findViewById( R.id.roomlist );
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        stbtn.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 mystatus = stET.getText().toString();
-                if (mystatus.length() == 0){
-                    Toast.makeText(RoommateListActivity.this, "Data is missing", Toast.LENGTH_SHORT).show();
-                }else{
-
+                if (mystatus.length() == 0) {
+                    Toast.makeText( RoommateListActivity.this, "Data is missing", Toast.LENGTH_SHORT ).show();
+                } else {
+                    postmystatusDatabase( true );
                 }
             }
-            });
+        } );
+        newbtn.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ID = newmemberET.getText().toString();
+                if (ID.length() == 0) {
+                    Toast.makeText( RoommateListActivity.this, "Data is missing", Toast.LENGTH_SHORT ).show();
+                } else {
+                    postnewmember( true );
+                }
+            }
+        } );
+        getroomlist();
+        getstatus();
+    }
+
+   public void getroomlist() {
+       final ValueEventListener postListener = new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               Log.d("onDataChange", "Data is Updated");
+               data.clear();
+               for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                   String key = postSnapshot.getKey();
+                   Roommatelistitem get = postSnapshot.getValue(Roommatelistitem.class);
+
+                   if(get.roomid == myinfo.getRoomID()){
+                        String[] info = {get.roommatename, get.status };
+                        String result = info[0] + "  " + info[1];
+                        data.add(result);
+                   Log.d("getFirebaseDatabase", "key: " + key);
+                   Log.d("getFirebaseDatabase", "info: " + info[0] + info[1]);}
+               }
+               arrayAdapter.clear();
+               arrayAdapter.addAll(data);
+               arrayAdapter.notifyDataSetChanged();
+           }
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {
+           }
+       };
+       mPostReference.child("ROOM/room"+myinfo.getRoomID()+"/member").addValueEventListener(postListener);
+   }
+
+    public void postnewmember(boolean add){
+            Map<String, Object> childUpdates = new HashMap<>();
+            Map<String, Object> postValues = null;
+            if(add){
+                mPostReference.child( "MEMBER" ).child( "member" + myinfo.getMemberid() ).child( "status" ).setValue( mystatus );
+                Roommatelistitem post = new Roommatelistitem(ID);
+                postValues = post.toMap();
+            }
+            childUpdates.put("/ROOM/" + "room"+myinfo.getRoomID() + "/member/" + "smp_"+ "3" +"memberid", postValues);
+            mPostReference.updateChildren(childUpdates);
+            clearET();
 
     }
 
-
-    public void getFirebaseDatabase() {
-        final ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("onDataChange", "Data is Updated");
-                data.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    String key = postSnapshot.getKey();
-                    Roommatelistitem get = postSnapshot.getValue(Roommatelistitem.class);
-                    String[] info = {get.id, get.roommatename, get.status};
-                    String result = info[0]+ " "  + info[1] + " " + info[2] ;
-                    data.add(result);
-                    Log.d("getFirebaseDatabase", "key: " + key);
-                    Log.d("getFirebaseDatabase", "info: " + info[0] + info[1] + info[2]);
-                }
-                arrayAdapter.clear();
-                arrayAdapter.addAll(data);
-                arrayAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-        mPostReference.child("MEMBER").addValueEventListener(postListener);
+    public void getstatus() {
+        stET.setText( myinfo.getStatus() );
     }
-    public void postFirebaseDatabase(boolean add){
 
-        if(add){
+    public void postmystatusDatabase(boolean add) {
+        if (add) {
         }
-
-        mPostReference.child("MEMBER").child( "member"+myinfo.getMemberid() ).child("status").setValue( mystatus );
+        mPostReference.child( "MEMBER" ).child( "member" + myinfo.getMemberid() ).child( "status" ).setValue( mystatus );
         clearET();
     }
-    public void clearET () {
-        stET.setText("");
+
+    public void clearET() {
+        stET.setText( "" );
         mystatus = "";
     }
 }

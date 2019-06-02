@@ -18,13 +18,12 @@ public class Roommatelistitem{
         this.status = roommatename;
         this.roomid = roomid;
     }
-    public Roommatelistitem(String id, String status){
+    public Roommatelistitem(String id){
         this.id = id;
-        this.status = status;
     }
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("status", status);
+        result.put("id", id);
 
         return result;
     }
