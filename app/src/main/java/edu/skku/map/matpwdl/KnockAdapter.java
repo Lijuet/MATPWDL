@@ -10,7 +10,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 public class KnockAdapter extends BaseAdapter {
     LayoutInflater inflater;
@@ -70,5 +76,33 @@ public class KnockAdapter extends BaseAdapter {
 
         }
         return view;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        Collections.sort(knocks, new Comparator() {
+            @Override
+            public int compare(Object o, Object t) {
+                Knock oK = (Knock)o, tK = (Knock)t;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+                try {
+                    Date oDate = sdf.parse(oK.getDate());
+                    Date tDate = sdf.parse(tK.getDate());
+
+                    long oDateValue = oDate.getTime(), tDateValue = tDate.getTime();
+
+                    Log.d("sortKnock",String.valueOf(oDateValue));
+                    Log.d("sortKnock",String.valueOf(tDateValue));
+                    Log.d("sortKnock","before compare");
+                    return (int)(oDateValue - tDateValue);
+
+                } catch (ParseException e) {
+                    Log.d("sortKnock",e.getMessage());
+                }
+
+                return 0;
+            }
+        });
+        super.notifyDataSetChanged();
     }
 }

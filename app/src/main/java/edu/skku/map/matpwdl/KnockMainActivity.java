@@ -18,7 +18,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 //myKnocklist와 mainKnockList를 설정할 adpater입니다.
 //item은 Knock.activity입니다.
@@ -115,6 +120,7 @@ public class KnockMainActivity extends AppCompatActivity {
                     // todo : 받은거랑 보낸거랑 구분하기
                     if(info[1].equals(myInfo.getMyID()) || info[2].equals(myInfo.getMyID())){
                         myKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
+
                     }
                     //가장 큰 key 값 찾기
                     if(Integer.parseInt(getKnock.getKnockID())>Integer.parseInt(biggest_knock_id)){
@@ -155,9 +161,7 @@ public class KnockMainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         };
         Log.d("onDataChange", "reference change");
-
-
-    kPostReference.child("ROOM").child("room"+myInfo.getRoomID()/* todo : 초반에 방 정보등 초기화하여 이용*/).child("knock").addValueEventListener(postListener);
+        kPostReference.child("ROOM").child("room"+myInfo.getRoomID()/* todo : 초반에 방 정보등 초기화하여 이용*/).child("knock").addValueEventListener(postListener);
     }
 
     private void InitForTest(){
