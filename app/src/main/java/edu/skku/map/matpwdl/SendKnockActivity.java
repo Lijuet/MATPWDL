@@ -71,6 +71,7 @@ public class SendKnockActivity extends AppCompatActivity {
 
                 } else {
                     postFirebaseDatabase(true);
+                    finish();
                 }
             }
         });
@@ -92,8 +93,7 @@ public class SendKnockActivity extends AppCompatActivity {
             String time = sdf.format(date);
 
             //Todo 내가 포함되어있으면 안보내기
-            for(String receiever :recievers) {
-                if(!receiever.equals(" ")) {
+            for(String receiever :recievers) {if(!receiever.equals(" ")) {
                     Knock post = new Knock(contents, myInfo.getMyID(), receiever.trim(), time, knock_id);
                     postValues = post.toMap();
                     childUpdates.put("/ROOM/" + "room" + myInfo.getRoomID() + "/knock/knock" + knock_id, postValues);
