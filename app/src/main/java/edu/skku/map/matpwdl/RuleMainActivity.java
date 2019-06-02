@@ -17,7 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Collections;
+//https://yeolco.tistory.com/85
 public class RuleMainActivity extends AppCompatActivity {
 
     private DatabaseReference rPostReference;
@@ -27,6 +29,7 @@ public class RuleMainActivity extends AppCompatActivity {
     RuleListAdapter ruleListAdapter;
     ListViewRuleItem testRule;
     String biggest_rule_id = "0";
+    Calendar calender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class RuleMainActivity extends AppCompatActivity {
         ruleListAdapter = new RuleListAdapter(this, rules);
         listView.setAdapter(ruleListAdapter);
 
+        calender = Calendar.getInstance(); //요일 확인용
+
         getFirebaseDatabase();
     }
 
@@ -78,7 +83,14 @@ public class RuleMainActivity extends AppCompatActivity {
                     Log.d("getFirebaseDatabase","key: "+ key);
                     Log.d("getFirebaseDatabase",get.title);
                 }
-                /*요일에 맞춰 정렬(미구현)*/
+                //오늘 요일이 포함된 규칙을 앞으로
+                int nWeek = calender.get(Calendar.DAY_OF_WEEK);
+                for(int i = rules.size() - 1; i>0; i--){
+                    if(matchWeek(rules.get(i),nWeek)){
+                        Collections.swap(rules,i,0);
+                    }
+                }
+
                 ruleListAdapter.notifyDataSetChanged();
             }
             @Override
@@ -88,5 +100,39 @@ public class RuleMainActivity extends AppCompatActivity {
         };
 
         rPostReference.child("ROOM").child("room1").child("rule").addValueEventListener(postListener);
+    }
+
+    //규칙이 오늘 해야 하는것인지 확인
+    public boolean matchWeek(ListViewRuleItem rule, int week){
+        String weekInfo = rule.getWeek();
+        if(week == 1){
+            if(weekInfo.contains("일")) return true;
+            else return false;
+        }
+        else if(week == 2){
+            if(weekInfo.contains("월")) return true;
+            else return false;
+        }
+        else if(week == 3){
+            if(weekInfo.contains("화")) return true;
+            else return false;
+        }
+        else if(week == 4){
+            if(weekInfo.contains("수")) return true;
+            else return false;
+        }
+        else if(week == 5){
+            if(weekInfo.contains("목")) return true;
+            else return false;
+        }
+        else if(week == 6){
+            if(weekInfo.contains("금")) return true;
+            else return false;
+        }
+        else if(week == 7){
+            if(weekInfo.contains("토")) return true;
+            else return false;
+        }
+        return false;
     }
 }
