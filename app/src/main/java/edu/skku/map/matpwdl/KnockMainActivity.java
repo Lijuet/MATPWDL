@@ -1,6 +1,8 @@
 package edu.skku.map.matpwdl;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +18,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 //myKnocklist와 mainKnockList를 설정할 adpater입니다.
 //item은 Knock.activity입니다.
@@ -39,6 +46,9 @@ public class KnockMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knock_main);
 
+        //initialize basic information
+        InitForTest(); //for TEST TODO delete it after logi section
+
 
         //find View by ID
         lvMainKnockList = findViewById(R.id.listView_MainKnockList);
@@ -48,8 +58,6 @@ public class KnockMainActivity extends AppCompatActivity {
         //getInstance of Firebase
         kPostReference = FirebaseDatabase.getInstance().getReference();
 
-        //initialize basic information
-        InitForTest(); //for TEST TODO delete it after logi section
 
 
         //make knockAdapter and set List
@@ -63,6 +71,7 @@ public class KnockMainActivity extends AppCompatActivity {
         lvMyKnockList.setAdapter(myKnockAdapter);
 
 
+        //Popup message를 위한 async 설정 todo mainAPP 화면으로 이동
 
 
 
@@ -111,10 +120,35 @@ public class KnockMainActivity extends AppCompatActivity {
                     // todo : 받은거랑 보낸거랑 구분하기
                     if(info[1].equals(myInfo.getMyID()) || info[2].equals(myInfo.getMyID())){
                         myKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
+
                     }
                     //가장 큰 key 값 찾기
                     if(Integer.parseInt(getKnock.getKnockID())>Integer.parseInt(biggest_knock_id)){
                         biggest_knock_id = getKnock.getKnockID();
+                    }
+
+                    Log.d("sendMessage","before if");
+                    //나에게 새로 들어온 message 라면
+                    if(info[2].equals(myInfo.getMyID()) && getKnock.getRead() == 0){
+                        Log.d("sendMessage","notice");
+                        PowerManager manager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+                        boolean bScreenOn = manager.isScreenOn();
+                        Log.d("sendMessage","check SCREENON");
+
+                        Intent intentPopup = new Intent(getApplicationContext(), KnockPopupActivity.class);
+                        intentPopup.putExtra("NEWKNOCK", getKnock);
+                        intentPopup.putExtra("myinfo",myInfo);
+                        if(bScreenOn){
+                            Log.d("sendMessage", "Screen ON");
+                            intentPopup.putExtra("SCREENON",true);
+                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentPopup);
+                        }else{
+                            Log.d("sendMessage", "Screen OFF");
+                            intentPopup.putExtra("SCREENON",false);
+                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentPopup);
+                        }
                     }
                 }
                 Log.d("onDataChange", "finish add data");
@@ -127,9 +161,7 @@ public class KnockMainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         };
         Log.d("onDataChange", "reference change");
-
-
-    kPostReference.child("ROOM").child("room"+myInfo.getRoomID()/* todo : 초반에 방 정보등 초기화하여 이용*/).child("knock").addValueEventListener(postListener);
+        kPostReference.child("ROOM").child("room"+myInfo.getRoomID()/* todo : 초반에 방 정보등 초기화하여 이용*/).child("knock").addValueEventListener(postListener);
     }
 
     private void InitForTest(){

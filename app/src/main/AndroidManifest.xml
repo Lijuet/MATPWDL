@@ -11,11 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".RuleService"
-            android:enabled="true"
-            android:exported="true"></service>
-
+        <activity android:name=".KnockPopupActivity"/>
         <activity android:name=".SendKnockActivity" />
         <activity android:name=".RuleMainActivity">
             <intent-filter>
