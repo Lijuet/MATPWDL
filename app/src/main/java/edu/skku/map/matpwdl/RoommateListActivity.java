@@ -27,6 +27,7 @@ public class RoommateListActivity extends AppCompatActivity {
     EditText stET;
     Button btn;
     String mystatus = "";
+    MyInformation myinfo;
     ListView listView;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
@@ -78,17 +79,14 @@ public class RoommateListActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
-        mPostReference.child("id_list").addValueEventListener(postListener);
+        mPostReference.child("MEMBER").addValueEventListener(postListener);
     }
     public void postFirebaseDatabase(boolean add){
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
+
         if(add){
-            Roommatelistitem post = new Roommatelistitem(ID, mystatus);
-            postValues = post.toMap();
         }
-        childUpdates.put("/id_list/" + ID, postValues);
-        mPostReference.updateChildren(childUpdates);
+
+        mPostReference.child("MEMBER").child( "member"+myinfo.getMemberid() ).child("status").setValue( mystatus );
         clearET();
     }
     public void clearET () {
