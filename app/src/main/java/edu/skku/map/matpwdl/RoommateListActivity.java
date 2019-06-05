@@ -106,7 +106,7 @@ public class RoommateListActivity extends AppCompatActivity{
                 Roommatelistitem post = new Roommatelistitem(ID);
                 postValues = post.toMap();
             }
-            childUpdates.put("/ROOM/" + "room"+myinfo.getRoomID() + "/member/" + "smp_"+ "3" +"memberid", postValues);
+            childUpdates.put("/ROOM/" + "room"+myinfo.getRoomID() + "/member/" + "smp_"+ "3" +"memberid", postValues);//smp_x수치 조정 피룡
             mPostReference.updateChildren(childUpdates);
             clearET();
 
