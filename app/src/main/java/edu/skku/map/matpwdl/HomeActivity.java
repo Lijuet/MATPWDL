@@ -27,6 +27,13 @@ public class HomeActivity extends AppCompatActivity {
     TextView textView_notice;
     TextView textView_notice2;
     TextView textView_notice3;
+    TextView textView_rule1;
+    TextView textView_rule2;
+    TextView textView_rule3;
+    TextView textView_knock1;
+    TextView textView_knock2;
+    TextView textView_knock3;
+
     String notice1 = " · ";
     String notice2 = " · ";
     String notice3 = " · ";
@@ -43,6 +50,12 @@ public class HomeActivity extends AppCompatActivity {
         textView_notice = findViewById(R.id.textView_notice);
         textView_notice2 = findViewById(R.id.textView_notice2);
         textView_notice3 = findViewById(R.id.textView_notice3);
+        textView_rule1=findViewById(R.id.textView_rule1);
+        textView_rule2=findViewById(R.id.textView_rule2);
+        textView_rule3=findViewById(R.id.textView_rule3);
+        textView_knock1=findViewById(R.id.textView_knock1);
+        textView_knock2=findViewById(R.id.textView_knock2);
+        textView_knock3=findViewById(R.id.textView_knock3);
 
         //공지
         constraint_notice.setOnTouchListener(new View.OnTouchListener() {
