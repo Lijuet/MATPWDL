@@ -23,6 +23,7 @@ public class KnockAdapter extends BaseAdapter {
     private ArrayList<Knock> knocks;
     private int mode;
 
+
     public KnockAdapter(Context context, ArrayList<Knock> knocks, int mode) {
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.knocks = knocks;
@@ -80,29 +81,33 @@ public class KnockAdapter extends BaseAdapter {
 
     @Override
     public void notifyDataSetChanged() {
-        Collections.sort(knocks, new Comparator() {
+        Log.d("onDataChange", "Sort data");
+        super.notifyDataSetChanged();
+    }
+
+    public void SortKnocks(){
+        Comparator<Knock> sortKnockByDate = new Comparator<Knock>() {
             @Override
-            public int compare(Object o, Object t) {
-                Knock oK = (Knock)o, tK = (Knock)t;
+            public int compare(Knock item1, Knock item2) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
                 try {
-                    Date oDate = sdf.parse(oK.getDate());
-                    Date tDate = sdf.parse(tK.getDate());
+                    Date oDate = sdf.parse(item1.getDate());
+                    Date tDate = sdf.parse(item2.getDate());
 
                     long oDateValue = oDate.getTime(), tDateValue = tDate.getTime();
 
-                    Log.d("sortKnock",String.valueOf(oDateValue));
-                    Log.d("sortKnock",String.valueOf(tDateValue));
-                    Log.d("sortKnock","before compare");
-                    return (int)(oDateValue - tDateValue);
+                    Log.d("sortKnock", item1.getContent());
+                    Log.d("sortKnock", item2.getContent());
+                    if(oDateValue > tDateValue) return -1;
+                    else if(oDateValue < tDateValue) return +1;
+                    else return 0;
 
                 } catch (ParseException e) {
-                    Log.d("sortKnock",e.getMessage());
+                    Log.d("sortKnock", e.getMessage());
+                    return 0;
                 }
-
-                return 0;
             }
-        });
-        super.notifyDataSetChanged();
+        } ;
+        Collections.sort(knocks, sortKnockByDate);
     }
 }

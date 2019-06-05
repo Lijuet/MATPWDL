@@ -58,7 +58,30 @@ public class KnockMainActivity extends AppCompatActivity {
         //getInstance of Firebase
         kPostReference = FirebaseDatabase.getInstance().getReference();
 
+        //makr Comparator
+        Comparator comparator = new Comparator() {
+            @Override
+            public int compare(Object o, Object t) {
+                Knock oK = (Knock)o, tK = (Knock)t;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+                try {
+                    Date oDate = sdf.parse(oK.getDate());
+                    Date tDate = sdf.parse(tK.getDate());
 
+                    long oDateValue = oDate.getTime(), tDateValue = tDate.getTime();
+
+                    Log.d("sortKnock",String.valueOf(oDateValue));
+                    Log.d("sortKnock",String.valueOf(tDateValue));
+                    Log.d("sortKnock","before compare");
+                    return (int)(oDateValue - tDateValue);
+
+                } catch (ParseException e) {
+                    Log.d("sortKnock",e.getMessage());
+                }
+
+                return 0;
+            }
+        };
 
         //make knockAdapter and set List
         allKnocks = new ArrayList<>();
@@ -151,6 +174,8 @@ public class KnockMainActivity extends AppCompatActivity {
                         }
                     }
                 }
+                allKnockAdapter.SortKnocks();
+                myKnockAdapter.SortKnocks();
                 Log.d("onDataChange", "finish add data");
                 allKnockAdapter.notifyDataSetChanged();
                 myKnockAdapter.notifyDataSetChanged();
@@ -177,3 +202,4 @@ public class KnockMainActivity extends AppCompatActivity {
         myInfo.setMembersID(temp);
     }
 }
+

@@ -103,7 +103,6 @@ public class SendKnockActivity extends AppCompatActivity {
             knock_id = String.valueOf(Integer.valueOf(knock_id) - 1);
         }
 
-        //todo 만약 시간이 15분이내 보낸 흔적이 3회이하이고
         mPostReference.updateChildren(childUpdates);
         clearET();
         Toast.makeText(getApplicationContext(), "Knock를 보냈습니다.", Toast.LENGTH_SHORT).show();
