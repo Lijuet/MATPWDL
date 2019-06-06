@@ -80,7 +80,9 @@ public class RuleListAdapter extends BaseAdapter{
                 //serverCallbackArgs.put("product_id", "${shared_product_id}");
                 Map<String,String> templateArgs = new HashMap<>();
                 templateArgs.put("${title}",item.getTitle());
-                templateArgs.put("${description}",(item.getContent()+"\n요일: "+item.getWeek()+"\n시간: "+item.getTime()+"\n멤버"+item.getMember()));
+                //templateArgs.put("${description}",(item.getContent()+"\n요일: "+item.getWeek()+"\n시간: "+item.getTime()+"\n멤버"+item.getMember()));
+                templateArgs.put("${description}",item.getContent());
+
                 KakaoLinkService.getInstance().sendCustom(context, "16604", templateArgs, new ResponseCallback<KakaoLinkResponse>() {
                     @Override
                     public void onFailure(ErrorResult errorResult) {

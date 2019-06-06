@@ -62,8 +62,8 @@ public class KnockPopupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 newKnock.setRead(1);
                 postFirebaseDatabase(true);
-                Intent intentGoLgoin = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intentGoLgoin);
+                Intent intentGoLogoin = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intentGoLogoin);
                 finish();//todo login activity 가서 finish하기
             }
         });

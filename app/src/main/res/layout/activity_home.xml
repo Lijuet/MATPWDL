@@ -6,4 +6,204 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraint_notice"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/layout_boarder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_percent="0.8">
+
+        <TextView
+            android:id="@+id/textView_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textView_notice2"
+            app:layout_constraintLeft_toLeftOf="@id/textView_notice2"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="22dp" />
+
+        <TextView
+            android:id="@+id/textView_notice2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="63dp" />
+
+        <TextView
+            android:id="@+id/textView_notice3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintTop_toBottomOf="@id/textView_notice2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/textView_notice2"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="101dp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraint_rule"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/layout_boarder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintWidth_percent="0.8">
+
+        <TextView
+            android:id="@+id/textView_rule1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textView_rule2"
+            app:layout_constraintLeft_toLeftOf="@id/textView_rule2"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="24dp" />
+
+        <TextView
+            android:id="@+id/textView_rule2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="63dp" />
+
+        <TextView
+            android:id="@+id/textView_rule3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintTop_toBottomOf="@id/textView_rule2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/textView_rule2"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="110dp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraint_knock"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/layout_boarder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintWidth_percent="0.8">
+
+        <TextView
+            android:id="@+id/textView_knock1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textView_knock2"
+            app:layout_constraintLeft_toLeftOf="@id/textView_knock2"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="31dp" />
+
+        <TextView
+            android:id="@+id/textView_knock2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="76dp" />
+
+        <TextView
+            android:id="@+id/textView_knock3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintTop_toBottomOf="@id/textView_knock2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/textView_knock2"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="110dp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button_toMemberList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="멤버 관리"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <TextView
+        android:id="@+id/textView_home_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기숙사 공지사항"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/constraint_notice"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="28dp" />
+
+    <TextView
+        android:id="@+id/textView_home_rule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="규칙"
+        app:layout_constraintTop_toBottomOf="@id/constraint_notice"
+        app:layout_constraintBottom_toTopOf="@id/constraint_rule"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="221dp" />
+
+    <TextView
+        android:id="@+id/textView_home_knock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="똑똑똑"
+        app:layout_constraintTop_toBottomOf="@id/constraint_rule"
+        app:layout_constraintBottom_toTopOf="@id/constraint_knock"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="432dp" />
+
 </android.support.constraint.ConstraintLayout>
