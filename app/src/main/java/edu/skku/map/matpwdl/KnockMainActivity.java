@@ -21,9 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 //myKnocklist와 mainKnockList를 설정할 adpater입니다.
 //item은 Knock.activity입니다.
@@ -31,7 +32,7 @@ import java.util.Date;
 
 public class KnockMainActivity extends AppCompatActivity {
     private DatabaseReference kPostReference;
-    ListView lvMainKnockList, lvMyKnockList;
+    ListView lvAllKnockList, lvMyKnockList;
     FloatingActionButton btnMakeKnock;
 
     KnockAdapter allKnockAdapter;
@@ -51,7 +52,7 @@ public class KnockMainActivity extends AppCompatActivity {
 
 
         //find View by ID
-        lvMainKnockList = findViewById(R.id.listView_MainKnockList);
+        lvAllKnockList = findViewById(R.id.listView_MainKnockList);
         lvMyKnockList = findViewById(R.id.listView_MyKnockList);
         btnMakeKnock = findViewById(R.id.button_MakeKnock);
 
@@ -87,10 +88,10 @@ public class KnockMainActivity extends AppCompatActivity {
         allKnocks = new ArrayList<>();
         myKnocks = new ArrayList<>();
 
-        allKnockAdapter = new KnockAdapter(this, allKnocks, 1/*allKnockMode*/);
-        myKnockAdapter = new KnockAdapter(this, myKnocks, 0)/*myKnockMode*/;
+        allKnockAdapter = new KnockAdapter(this, allKnocks, myInfo ,1/*allKnockMode*/);
+        myKnockAdapter = new KnockAdapter(this, myKnocks, myInfo,2)/*myKnockMode*/;
 
-        lvMainKnockList.setAdapter(allKnockAdapter);
+        lvAllKnockList.setAdapter(allKnockAdapter);
         lvMyKnockList.setAdapter(myKnockAdapter);
 
 
@@ -104,7 +105,21 @@ public class KnockMainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intentMyKnock = new Intent(KnockMainActivity.this, KnockDetailActivity.class);
                 intentMyKnock.putExtra("myInfo", myInfo);
+                intentMyKnock.putExtra("knocks", myKnocks);
+                intentMyKnock.putExtra("mode","myKnocks");
                 startActivity(intentMyKnock);
+            }
+        });
+
+        //if we click the list my knock list, go to KnockDetailActivity
+        lvAllKnockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intentAllKnock = new Intent(KnockMainActivity.this, KnockDetailActivity.class);
+                intentAllKnock.putExtra("myInfo", myInfo);
+                intentAllKnock.putExtra("knocks", allKnocks);
+                intentAllKnock.putExtra("mode","allKnocks");
+                startActivity(intentAllKnock);
             }
         });
 
@@ -138,11 +153,13 @@ public class KnockMainActivity extends AppCompatActivity {
                     Knock getKnock = postSnapshot.getValue(Knock.class);
 
                     String[] info = {getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver().trim(), getKnock.getDate(), getKnock.getKnockID()};
-                    allKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
+                    Knock newKnock = new Knock(info[0], info[1], info[2], info[3], info[4]);
+                    newKnock.setRead(getKnock.getRead());
+                    allKnocks.add(newKnock);
 
                     // todo : 받은거랑 보낸거랑 구분하기
-                    if(info[1].equals(myInfo.getMyID()) || info[2].equals(myInfo.getMyID())){
-                        myKnocks.add(new Knock(info[0], info[1], info[2], info[3], info[4]));
+                    if(info[1].equals(myInfo.getMemberid()) || info[2].equals(myInfo.getMemberid())){
+                        myKnocks.add(newKnock);
 
                     }
                     //가장 큰 key 값 찾기
@@ -152,7 +169,7 @@ public class KnockMainActivity extends AppCompatActivity {
 
                     Log.d("sendMessage","before if");
                     //나에게 새로 들어온 message 라면
-                    if(info[2].equals(myInfo.getMyID()) && getKnock.getRead() == 0){
+                    if(info[2].equals(myInfo.getMemberid()) && getKnock.getRead() == 0){
                         Log.d("sendMessage","notice");
                         PowerManager manager = (PowerManager)getSystemService(Context.POWER_SERVICE);
                         boolean bScreenOn = manager.isScreenOn();
@@ -190,16 +207,16 @@ public class KnockMainActivity extends AppCompatActivity {
     }
 
     private void InitForTest(){
-        ArrayList<String> temp = new ArrayList<>();
-        temp.add("1234");
-        temp.add("4822");
-        temp.add("1111");
+        Map<Integer,String> temp = new HashMap<>();
+        temp.put(1, "김초롱");
+        temp.put(2, "박달러");
+        temp.put(3, "황모바");
         myInfo = new MyInformation();
-        myInfo.setMyID("1234");
-        myInfo.setName("member1_name");
+        myInfo.setMemberid("1");
+        myInfo.setName("김초롱");
         myInfo.setRoomID("1");
         myInfo.setStatus("재실");
-        myInfo.setMembersID(temp);
+        myInfo.setRoommatessID(temp);
     }
 }
 

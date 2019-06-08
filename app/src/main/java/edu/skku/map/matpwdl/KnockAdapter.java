@@ -22,12 +22,14 @@ public class KnockAdapter extends BaseAdapter {
     LayoutInflater inflater;
     private ArrayList<Knock> knocks;
     private int mode;
+    MyInformation myInfo;
 
 
-    public KnockAdapter(Context context, ArrayList<Knock> knocks, int mode) {
+    public KnockAdapter(Context context, ArrayList<Knock> knocks, MyInformation _myInfo, int mode) {
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.knocks = knocks;
         this.mode = mode;
+        this.myInfo = _myInfo;
     }
 
     @Override
@@ -56,25 +58,35 @@ public class KnockAdapter extends BaseAdapter {
         TextView receiever_tv = (TextView)view.findViewById(R.id.textView_KnockItemReciever);
         TextView contents_tv = (TextView)view.findViewById(R.id.textView_KnockItemContent);
         TextView date_tv = (TextView)view.findViewById(R.id.textView_KnockItemDate);
+        TextView readOrNot_tv = view.findViewById(R.id.testView_ReadOrNot);
 
-        receiever_tv.setText(item.getReceiver());
+        receiever_tv.setText("To : "+ myInfo.getRoommatessID().get(Integer.parseInt(item.getReceiver())));
         contents_tv.setText(item.getContent());
         date_tv.setText(item.getDate());
-
-
-        if(mode == 1) {//우리 방의 똑똑똑
+        int weight;
+        switch (mode){
             //받는 사람별 랜덤 색깔 배정
-            int weight = Integer.valueOf(item.getReceiver());
-            view.setBackgroundColor(Color.argb(50, (weight * 111) % 255, (weight * 11) % 255, weight % 255));
-        }
-        else{//나의 똑똑똑
-            if(item.getReceiver().equals("1234")/*todo 나의 정보*/){//내가 받은거는 LTGray
-                view.setBackgroundColor(Color.LTGRAY);
-            }
-            else{//내가 보낸거는 Gray
-                view.setBackgroundColor(Color.GRAY);
-            }
-
+            case 1:
+                weight = Integer.valueOf(item.getReceiver());
+                view.setBackgroundColor(Color.argb(50, (weight * 111) % 255, (weight * 111) % 255, (weight * 222) % 255));
+                break;
+            case 2:
+                weight = Integer.valueOf(item.getReceiver());
+                if(item.getReceiver().equals(myInfo.getMemberid())){//내가 받은거는 LTGray
+                    view.setBackgroundColor(Color.argb(50, (weight * 111) % 255, (weight * 111) % 255, (weight * 222) % 255));
+                }
+                else{//내가 보낸거는 Gray
+                    view.setBackgroundColor(Color.WHITE);
+                }
+                break;
+            case 3:
+                    readOrNot_tv.setVisibility(View.VISIBLE);
+                    Log.d("readOnNot",String.valueOf(item.getRead()));
+                    if(item.getRead() == 1) readOrNot_tv.setText("읽음");
+                    else readOrNot_tv.setText("안읽음");
+                break;
+            default:
+                break;
         }
         return view;
     }
