@@ -86,6 +86,9 @@ public class LoginActivity extends AppCompatActivity {
                                                     editor.commit();
                                                     startActivity(intent);
                                                     finish();
+                                                    //로그인 성공//
+
+
                                                 } else {
                                                     Toast.makeText(LoginActivity.this, "failed pw", Toast.LENGTH_SHORT);
                                                 }
