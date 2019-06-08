@@ -1,12 +1,15 @@
 package edu.skku.map.matpwdl;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 //Knock Adpater에 넣을 리스트뷰 아이템입니다.
 
-public class Knock implements Serializable {
+public class Knock implements /*Serializable,*/ Parcelable {
     private String content;
     private String sender;
     private String receiver;
@@ -25,6 +28,28 @@ public class Knock implements Serializable {
         this.count= 0;
         this.read = 0;
     }
+
+    protected Knock(Parcel in) {
+        content = in.readString();
+        sender = in.readString();
+        receiver = in.readString();
+        date = in.readString();
+        knockID = in.readString();
+        count = in.readInt();
+        read = in.readInt();
+    }
+
+    public static final Creator<Knock> CREATOR = new Creator<Knock>() {
+        @Override
+        public Knock createFromParcel(Parcel in) {
+            return new Knock(in);
+        }
+
+        @Override
+        public Knock[] newArray(int size) {
+            return new Knock[size];
+        }
+    };
 
     public String getContent() { return content; }
     public String getSender() { return sender; }
@@ -53,5 +78,21 @@ public class Knock implements Serializable {
         result.put("knockID", knockID);
 
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(content);
+        parcel.writeString(sender);
+        parcel.writeString(receiver);
+        parcel.writeString(date);
+        parcel.writeString(knockID);
+        parcel.writeInt(count);
+        parcel.writeInt(read);
     }
 }
