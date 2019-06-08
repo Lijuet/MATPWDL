@@ -31,6 +31,7 @@ public class RoommateListActivity extends AppCompatActivity{
     ListView listView;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
+    private String mc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,15 +99,40 @@ public class RoommateListActivity extends AppCompatActivity{
        mPostReference.child("ROOM/room"+myinfo.getRoomID()+"/member").addValueEventListener(postListener);
    }
 
+    public String getmembercount() {
+        final ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    roommembercount get = postSnapshot.getValue( roommembercount.class );
+                    mc = get.membersize;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        mPostReference.child("ROOM/room"+myinfo.getRoomID()+"/member").addValueEventListener(postListener);
+        return mc;
+    }
+
+
+
     public void postnewmember(boolean add){
             Map<String, Object> childUpdates = new HashMap<>();
             Map<String, Object> postValues = null;
             if(add){
-                mPostReference.child( "MEMBER" ).child( "member" + myinfo.getMemberid() ).child( "status" ).setValue( mystatus );
+
+                mPostReference.child( "ROOM" ).child( "member" + myinfo.getMemberid() ).child( "status" ).setValue( ID );
                 Roommatelistitem post = new Roommatelistitem(ID);
                 postValues = post.toMap();
             }
-            childUpdates.put("/ROOM/" + "room"+myinfo.getRoomID() + "/member/" + "smp_"+ "3" +"memberid", postValues);//smp_x수치 조정 피룡
+            String membercount;
+            membercount = getmembercount();
+
+            childUpdates.put("/ROOM/" + "room"+myinfo.getRoomID() + "/member/" + "smp_"+ membercount +"memberid", postValues);//smp_x수치 조정 피룡
+        mPostReference.child( "ROOM" ).child( "member" ).child( "membersize" ).setValue(  String.valueOf (membercount+1) );
             mPostReference.updateChildren(childUpdates);
             clearET();
 
