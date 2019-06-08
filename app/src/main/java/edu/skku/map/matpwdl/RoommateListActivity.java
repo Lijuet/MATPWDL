@@ -122,17 +122,15 @@ public class RoommateListActivity extends AppCompatActivity{
     public void postnewmember(boolean add){
             Map<String, Object> childUpdates = new HashMap<>();
             Map<String, Object> postValues = null;
+        String membercount;
+        membercount = getmembercount();
             if(add){
-
-                mPostReference.child( "ROOM" ).child( "member" + myinfo.getMemberid() ).child( "status" ).setValue( ID );
                 Roommatelistitem post = new Roommatelistitem(ID);
                 postValues = post.toMap();
+                childUpdates.put("/ROOM/" + "room"+myinfo.getRoomID() + "/member/" + "smp_"+ membercount +"memberid", ID);//smp_x수치 조정 피룡
             }
-            String membercount;
-            membercount = getmembercount();
+            mPostReference.child( "ROOM" ).child( "member" ).child( "membersize" ).setValue(  String.valueOf (membercount+1) );
 
-            childUpdates.put("/ROOM/" + "room"+myinfo.getRoomID() + "/member/" + "smp_"+ membercount +"memberid", postValues);//smp_x수치 조정 피룡
-        mPostReference.child( "ROOM" ).child( "member" ).child( "membersize" ).setValue(  String.valueOf (membercount+1) );
             mPostReference.updateChildren(childUpdates);
             clearET();
 
