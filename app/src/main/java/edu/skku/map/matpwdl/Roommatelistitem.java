@@ -12,12 +12,7 @@ public class Roommatelistitem{
     public Roommatelistitem(){
         //Constructor
     }
-    public Roommatelistitem(String id, String roommatename, String status, String roomid){
-        this.id = id;
-        this.roommatename = roommatename;
-        this.status = roommatename;
-        this.roomid = roomid;
-    }
+
     public Roommatelistitem(String id){
         this.id = id;
     }
