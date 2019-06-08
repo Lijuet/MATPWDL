@@ -3,6 +3,7 @@ package edu.skku.map.matpwdl;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,12 +35,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
+    //private DatabaseReference kPostReference, kPostReference2;  TODO MYINFO 초기화
     EditText IDeditText, PWeditText;
     Button button;
-    String id, pw, shakey, data;
+    String id, pw, shakey, data, memberID;
 
     SharedPreferences loginPref;
     Intent intent;
+    MyInformation myInfo;
     private DatabaseReference mDatabase,postRef;// ...
     private FirebaseAuth mAuth;
     @Override
@@ -87,6 +90,15 @@ public class LoginActivity extends AppCompatActivity {
                                                     startActivity(intent);
                                                     finish();
                                                     //로그인 성공//
+<<<<<<< HEAD
+=======
+
+
+                                                    /* TODO MYINFO 초기화
+                                                    myInfo = dataSnapshot.getValue(MyInformation.class);
+                                                    getFirebaseDatabase();
+                                                    */
+>>>>>>> ff4194d15ff9d6d521bbe2d1cc6752601d90e727
                                                 } else {
                                                     Toast.makeText(LoginActivity.this, "failed pw", Toast.LENGTH_SHORT);
                                                 }
@@ -106,4 +118,35 @@ public class LoginActivity extends AppCompatActivity {
             }
         }});
     }
+/* TODO MYINFO 초기화
+    private void getFirebaseDatabase() {
+        final ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String membersize = (String) dataSnapshot.child("membersize").getValue();
+
+                    for(int i = 1; i < Integer.valueOf(membersize) + 1; i++){
+                        memberID = (String) dataSnapshot.child("smp_"+ String.valueOf(i) + "member_id").getValue();
+                        postRef.orderByChild("memberid").equalTo(memberID).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    myInfo.addRoommatessID(Integer.valueOf(memberID), (String)postSnapshot.child("name").getValue());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        kPostReference.child("ROOM").child("room"+myInfo.getRoomID()).child("room_info").addValueEventListener(postListener);
+    }
+    */
 }
