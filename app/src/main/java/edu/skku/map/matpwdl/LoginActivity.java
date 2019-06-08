@@ -89,6 +89,9 @@ public class LoginActivity extends AppCompatActivity {
                                                     editor.commit();
                                                     startActivity(intent);
                                                     finish();
+                                                    //로그인 성공//
+
+
                                                     /* TODO MYINFO 초기화
                                                     myInfo = dataSnapshot.getValue(MyInformation.class);
                                                     getFirebaseDatabase();
