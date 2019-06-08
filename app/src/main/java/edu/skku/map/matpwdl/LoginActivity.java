@@ -90,12 +90,15 @@ public class LoginActivity extends AppCompatActivity {
                                                     startActivity(intent);
                                                     finish();
                                                     //로그인 성공//
+<<<<<<< HEAD
+=======
 
 
                                                     /* TODO MYINFO 초기화
                                                     myInfo = dataSnapshot.getValue(MyInformation.class);
                                                     getFirebaseDatabase();
                                                     */
+>>>>>>> ff4194d15ff9d6d521bbe2d1cc6752601d90e727
                                                 } else {
                                                     Toast.makeText(LoginActivity.this, "failed pw", Toast.LENGTH_SHORT);
                                                 }
@@ -112,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
                                 }
                 });
-
             }
         }});
     }

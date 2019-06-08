@@ -133,7 +133,6 @@ public class RoommateListActivity extends AppCompatActivity{
 
             mPostReference.updateChildren(childUpdates);
             clearET();
-
     }
 
     public void getstatus() {
