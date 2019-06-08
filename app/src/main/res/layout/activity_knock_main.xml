@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".KnockMainActivity"
     android:orientation="vertical"
-    android:layout_margin="20dp"
-    android:weightSum="5">
+    android:layout_margin="20dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="3">
+        android:layout_weight="5"
+        android:layout_marginBottom="15dp">
         <TextView
             android:id="@+id/textView_MainKnockViewTitle"
             android:layout_width="match_parent"
@@ -35,8 +35,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="vertical"  >
+        android:layout_weight="4"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView_MyKnockViewTitle"
@@ -53,7 +53,7 @@
         <ListView
             android:id="@+id/listView_MyKnockList"
             android:layout_width="0dp"
-            android:layout_height="236dp"
+            android:layout_height="203dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
