@@ -54,16 +54,16 @@ public class LoginActivity extends AppCompatActivity {
         intent = new Intent(LoginActivity.this, HomeActivity.class);
         IDeditText = (EditText) findViewById(R.id.editid);
         PWeditText = (EditText) findViewById(R.id.editpw);
-        button = (Button) findViewById(R.id.button);
+        button = (Button) findViewById(R.id.button2);
         postRef = FirebaseDatabase.getInstance().getReference().child("MEMBER");
         mDatabase = FirebaseDatabase.getInstance().getReference(); //database
-        loginPref = this.getPreferences( Context.MODE_PRIVATE);
+        /*loginPref = this.getPreferences( Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = loginPref.edit();
         String defaultValue = loginPref.getString("login", null);
         if (defaultValue != null) { //자동로그인
             startActivity(intent);
             finish();
-        }
+        } */
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,11 +80,11 @@ public class LoginActivity extends AppCompatActivity {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 if(dataSnapshot.exists()){
-                                                    shakey = id + " " + pw;
+                                                    /*shakey = id + " " + pw;
                                                     Log.d("shakey", shakey);
                                                     // Save LOGIN information in shared preferences
                                                     editor.putString("login", shakey);
-                                                    editor.commit();
+                                                    editor.commit(); */
                                                     startActivity(intent);
                                                     finish();
                                                     //로그인 성공//
