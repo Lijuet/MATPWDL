@@ -38,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     //private DatabaseReference kPostReference, kPostReference2;  TODO MYINFO 초기화
     EditText IDeditText, PWeditText;
     Button button;
-    String id, pw, shakey, data, memberID;
-
+    String id, pw, shakey, data, memberID, login;
     SharedPreferences loginPref;
     Intent intent;
     MyInformation myInfo;
@@ -69,17 +68,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 id = IDeditText.getText().toString();
                 pw = PWeditText.getText().toString();
+                login = id +pw;
                 if ((id.length() * pw.length()) == 0) {
                     Toast.makeText(LoginActivity.this, "Type all info...", Toast.LENGTH_SHORT);
                 } else {
-                    postRef.orderByChild("ID").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    postRef.orderByChild("IDPW").equalTo(login).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
-                                        postRef.orderByChild("PW").equalTo(pw).addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                if(dataSnapshot.exists()){
                                                     /*shakey = id + " " + pw;
                                                     Log.d("shakey", shakey);
                                                     // Save LOGIN information in shared preferences
@@ -97,14 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                                                     getFirebaseDatabase();
                                                     */
 /* >>>>>>> ff4194d15ff9d6d521bbe2d1cc6752601d90e727 */
-                                                } else {
-                                                    Toast.makeText(LoginActivity.this, "failed pw", Toast.LENGTH_SHORT);
-                                                }
-                                            }
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            }
-                                        });
                                     } else {
                                         Toast.makeText(LoginActivity.this, "failed id", Toast.LENGTH_SHORT);
                                     }
