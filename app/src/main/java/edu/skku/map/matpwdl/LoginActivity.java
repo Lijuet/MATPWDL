@@ -44,12 +44,10 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent;
     MyInformation myInfo;
     private DatabaseReference mDatabase,postRef;// ...
-    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // ...
 // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -90,15 +88,15 @@ public class LoginActivity extends AppCompatActivity {
                                                     startActivity(intent);
                                                     finish();
                                                     //로그인 성공//
-<<<<<<< HEAD
-=======
+/*<<<<<<< HEAD
+======= */
 
 
                                                     /* TODO MYINFO 초기화
                                                     myInfo = dataSnapshot.getValue(MyInformation.class);
                                                     getFirebaseDatabase();
                                                     */
->>>>>>> ff4194d15ff9d6d521bbe2d1cc6752601d90e727
+/* >>>>>>> ff4194d15ff9d6d521bbe2d1cc6752601d90e727 */
                                                 } else {
                                                     Toast.makeText(LoginActivity.this, "failed pw", Toast.LENGTH_SHORT);
                                                 }
