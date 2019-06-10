@@ -164,19 +164,14 @@ public class HomeActivity extends AppCompatActivity {
         logout.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
-                LoginActivity LA = (LoginActivity)LoginActivity._LoginActivity;
-                if(LA != null) LA.finish();
-                Log.d("LogoutTest","click");
-
-                SharedPreferences prefs = getSharedPreferences("loginFile",MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.clear();
-
-                editor.commit();
-                Intent intentLogout = new Intent(HomeActivity.this, LoginActivity.class);
-                intentLogout.putExtra("logout", true);
-                intentLogout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intentLogout);
+                SharedPreferences loginPref = getSharedPreferences("loginFile",MODE_PRIVATE);
+                loginPref.edit().remove("firstLoginFlag").commit();
+                loginPref.edit().remove("ID").commit();
+                loginPref.edit().remove("PW").commit();
+                Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
 

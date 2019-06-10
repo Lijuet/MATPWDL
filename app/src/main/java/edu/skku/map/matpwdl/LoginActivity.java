@@ -39,7 +39,6 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private DatabaseReference kPostReference;
-    public static Activity _LoginActivity;
     EditText IDeditText, PWeditText;
     Button button, button_signUp;
     String id, pw, shakey;
@@ -53,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.DefaultGray)));
         setTitle( "LOGIN" );
-        _LoginActivity = LoginActivity.this;
         kPostReference = FirebaseDatabase.getInstance().getReference();
         intent = new Intent(LoginActivity.this, HomeActivity.class);
         IDeditText = (EditText) findViewById(R.id.editid);
@@ -61,16 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button2);
         myInfo = new MyInformation();
         button_signUp = findViewById(R.id.button_signUp);
-
-        //if logout flag is true
-
-        Intent intent = getIntent();
-        if(intent != null){
-            intent.getBooleanExtra("logout", false);
-            if(logout){
-                myInfo = new MyInformation();
-            }
-        }
 
         //자동 로그인 파트
         SharedPreferences sf = getSharedPreferences("loginFile",MODE_PRIVATE);
