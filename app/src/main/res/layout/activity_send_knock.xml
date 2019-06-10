@@ -20,16 +20,13 @@
             android:text="받는 사람 :"
             android:textSize="17dp"
             android:textStyle="bold"/>
-        <MultiAutoCompleteTextView
+        <TextView
             android:id="@+id/autoText_MyKnockReciever"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
-            android:layout_weight="5"/>
-        <Button
-            android:id="@+id/button_MyKnockReciever"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content" />
+            android:layout_weight="5"
+            android:hint="보내는람을 고르기위해 클릭하시오."/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

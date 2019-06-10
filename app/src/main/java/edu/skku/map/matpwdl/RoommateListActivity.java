@@ -1,5 +1,6 @@
 package edu.skku.map.matpwdl;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ public class RoommateListActivity extends AppCompatActivity{
     EditText stET, newmemberET;
     Button stbtn, newbtn;
     String mystatus = "";
-    MyInformation myinfo;
+    MyInformation myInfo;
     ListView listView;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
@@ -45,6 +46,12 @@ public class RoommateListActivity extends AppCompatActivity{
         listView = (ListView) findViewById( R.id.roomlist );
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+        //Initialize MyInformation
+        myInfo = new MyInformation();
+        Intent intent = getIntent();
+        myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
+
+        Log.d("RoommateTest", myInfo.getRoomID());
         stbtn.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -81,7 +88,7 @@ public class RoommateListActivity extends AppCompatActivity{
                    String key = postSnapshot.getKey();
                    Roommatelistitem get = postSnapshot.getValue(Roommatelistitem.class);
 
-                   if(get.roomid == myinfo.getRoomID()){
+                   if(get.roomid == myInfo.getRoomID()){
                         String[] info = {get.roommatename, get.status };
                         String result = info[0] + "  " + info[1];
                         data.add(result);
@@ -96,7 +103,7 @@ public class RoommateListActivity extends AppCompatActivity{
            public void onCancelled(@NonNull DatabaseError databaseError) {
            }
        };
-       mPostReference.child("ROOM/room"+myinfo.getRoomID()+"/member").addValueEventListener(postListener);
+       mPostReference.child("ROOM/room"+ myInfo.getRoomID()+"/member").addValueEventListener(postListener);
    }
 
     public String getmembercount() {
@@ -113,7 +120,7 @@ public class RoommateListActivity extends AppCompatActivity{
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
-        mPostReference.child("ROOM/room"+myinfo.getRoomID()+"/member").addValueEventListener(postListener);
+        mPostReference.child("ROOM/room"+ myInfo.getRoomID()+"/member").addValueEventListener(postListener);
         return mc;
     }
 
@@ -127,23 +134,22 @@ public class RoommateListActivity extends AppCompatActivity{
             if(add){
                 Roommatelistitem post = new Roommatelistitem(ID);
                 postValues = post.toMap();
-                childUpdates.put("/ROOM/" + "room"+myinfo.getRoomID() + "/member/" + "smp_"+ membercount +"memberid", ID);//smp_x수치 조정 피룡
+                childUpdates.put("/ROOM/" + "room"+ myInfo.getRoomID() + "/member/" + "smp_"+ membercount +"memberid", ID);//smp_x수치 조정 피룡
             }
             mPostReference.child( "ROOM" ).child( "member" ).child( "membersize" ).setValue(  String.valueOf (membercount+1) );
 
             mPostReference.updateChildren(childUpdates);
             clearET();
-
     }
 
     public void getstatus() {
-        stET.setText( myinfo.getStatus() );
+        stET.setText( myInfo.getStatus() );
     }
 
     public void postmystatusDatabase(boolean add) {
         if (add) {
         }
-        mPostReference.child( "MEMBER" ).child( "member" + myinfo.getMemberid() ).child( "status" ).setValue( mystatus );
+        mPostReference.child( "MEMBER" ).child( "member" + myInfo.getMemberid() ).child( "status" ).setValue( mystatus );
         clearET();
     }
 
