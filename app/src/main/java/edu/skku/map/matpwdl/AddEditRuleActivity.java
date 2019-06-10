@@ -3,6 +3,8 @@ package edu.skku.map.matpwdl;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ public class AddEditRuleActivity extends AppCompatActivity {
     Button button_save;
     CheckBox checkBox_repeat;
     CheckBox checkBox_mon;
+    float [] hsv = {333, 100, 100};
     CheckBox checkBox_tue;
     CheckBox checkBox_wed;
     CheckBox checkBox_thu;
@@ -43,7 +46,8 @@ public class AddEditRuleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_rule);
         rPostReference = FirebaseDatabase.getInstance().getReference();
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
+        setTitle( "Rule" );
         button_addMember = findViewById(R.id.button_addmember);
         button_save = findViewById(R.id.button_save);
         checkBox_repeat = findViewById(R.id.checkBox_repeat);

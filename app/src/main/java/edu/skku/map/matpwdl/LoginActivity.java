@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
@@ -42,11 +43,13 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent;
     MyInformation myInfo;
     String defaultValue;
-
+    float [] hsv = {224, 55, 25};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
+        setTitle( "Login" );
         kPostReference = FirebaseDatabase.getInstance().getReference();
         intent = new Intent(LoginActivity.this, HomeActivity.class);
         IDeditText = (EditText) findViewById(R.id.editid);
