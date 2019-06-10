@@ -17,6 +17,8 @@ import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -37,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     String notice1 = " · ";
     String notice2 = " · ";
     String notice3 = " · ";
+    MyInformation myInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,10 @@ public class HomeActivity extends AppCompatActivity {
         textView_knock2=findViewById(R.id.textView_knock2);
         textView_knock3=findViewById(R.id.textView_knock3);
 
+
+        //initialize basic information
+        InitForTest(); //for TEST TODO delete it after logi section
+
         //공지
         constraint_notice.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -76,6 +83,7 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Intent intent = new Intent(HomeActivity.this, RuleMainActivity.class);
                 startActivity(intent);
+                intent.putExtra("myInfo",myInfo);
                 return false;
             }
         });
@@ -85,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Intent intent = new Intent(HomeActivity.this, KnockMainActivity.class);
+                intent.putExtra("myInfo",myInfo);
                 startActivity(intent);
                 return false;
             }
@@ -95,6 +104,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(HomeActivity.this, RoommateListActivity.class);
+                intent.putExtra("myInfo",myInfo);
                 startActivity(intent);
             }
         });
@@ -161,4 +171,19 @@ public class HomeActivity extends AppCompatActivity {
             textView_notice3.setText(notice3);
         }
     }
+
+    private void InitForTest(){
+        Map<Integer,String> temp = new HashMap<>();
+        temp.put(1, "김초롱");
+        temp.put(2, "박달러");
+        temp.put(3, "황모바");
+        myInfo = new MyInformation();
+        myInfo.setMemberid("1");
+        myInfo.setName("김초롱");
+        myInfo.setRoomID("1");
+        myInfo.setStatus("재실");
+        myInfo.setRoommatessID(temp);
+    }
 }
+
+

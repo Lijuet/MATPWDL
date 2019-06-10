@@ -47,9 +47,10 @@ public class KnockMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knock_main);
 
-        //initialize basic information
-        InitForTest(); //for TEST TODO delete it after logi section
-
+        //Initialize MyInformation
+        myInfo = new MyInformation();
+        Intent intent = getIntent();
+        myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
 
         //find View by ID
         lvAllKnockList = findViewById(R.id.listView_MainKnockList);
@@ -177,7 +178,7 @@ public class KnockMainActivity extends AppCompatActivity {
 
                         Intent intentPopup = new Intent(getApplicationContext(), KnockPopupActivity.class);
                         intentPopup.putExtra("NEWKNOCK", getKnock);
-                        intentPopup.putExtra("myinfo",myInfo);
+                        intentPopup.putExtra("myInfo",myInfo);
                         if(bScreenOn){
                             Log.d("sendMessage", "Screen ON");
                             intentPopup.putExtra("SCREENON",true);
@@ -206,17 +207,5 @@ public class KnockMainActivity extends AppCompatActivity {
         kPostReference.child("ROOM").child("room"+myInfo.getRoomID()/* todo : 초반에 방 정보등 초기화하여 이용*/).child("knock").addValueEventListener(postListener);
     }
 
-    private void InitForTest(){
-        Map<Integer,String> temp = new HashMap<>();
-        temp.put(1, "김초롱");
-        temp.put(2, "박달러");
-        temp.put(3, "황모바");
-        myInfo = new MyInformation();
-        myInfo.setMemberid("1");
-        myInfo.setName("김초롱");
-        myInfo.setRoomID("1");
-        myInfo.setStatus("재실");
-        myInfo.setRoommatessID(temp);
-    }
 }
 

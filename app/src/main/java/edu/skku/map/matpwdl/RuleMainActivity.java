@@ -30,11 +30,16 @@ public class RuleMainActivity extends AppCompatActivity {
     ListViewRuleItem testRule;
     String biggest_rule_id = "0";
     Calendar calender;
+    MyInformation myInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rule_main);
+
+        //Initialize MyInformation
+        Intent intent = getIntent();
+        myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
 
         //규칙들을 표시할 ListView
         listView = findViewById(R.id.ListView_rules);
