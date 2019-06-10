@@ -1,7 +1,10 @@
 package edu.skku.map.matpwdl;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
@@ -77,7 +80,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(1697999));
+        setTitle( "Home" );
         constraint_notice = findViewById(R.id.constraint_notice);
         constraint_rule = findViewById(R.id.constraint_rule);
         constraint_knock = findViewById(R.id.constraint_knock);
