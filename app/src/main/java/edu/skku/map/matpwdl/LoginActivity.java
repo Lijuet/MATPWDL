@@ -35,7 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-    //private DatabaseReference kPostReference, kPostReference2;  TODO MYINFO 초기화
+    private DatabaseReference kPostReference, kPostReference2;  //TODO MYINFO 초기화
     EditText IDeditText, PWeditText;
     Button button;
     String id, pw, shakey, data, memberID, login;
@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id = IDeditText.getText().toString();
-                pw = PWeditText.getText().toString();
+                id = IDeditText.getText().toString().trim();
+                pw = PWeditText.getText().toString().trim();
                 login = id +pw;
                 if ((id.length() * pw.length()) == 0) {
                     Toast.makeText(LoginActivity.this, "Type all info...", Toast.LENGTH_SHORT);
@@ -76,22 +76,19 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if(dataSnapshot.exists()){
-                                                    /*shakey = id + " " + pw;
-                                                    Log.d("shakey", shakey);
-                                                    // Save LOGIN information in shared preferences
-                                                    editor.putString("login", shakey);
-                                                    editor.commit(); */
-                                                    startActivity(intent);
-                                                    finish();
-                                                    //로그인 성공//
-/*<<<<<<< HEAD
-======= */
-
-
-                                                    /* TODO MYINFO 초기화
-                                                    myInfo = dataSnapshot.getValue(MyInformation.class);
-                                                    getFirebaseDatabase();
-                                                    */
+                                        myInfo = dataSnapshot.getValue(MyInformation.class);
+                                        Log.d("LoginTest",myInfo.getRoomID()+myInfo.getName());
+                                        //getFirebaseDatabase();
+                                        /*shakey = id + " " + pw;
+                                        Log.d("shakey", shakey);
+                                        // Save LOGIN information in shared preferences
+                                        editor.putString("login", shakey);
+                                        editor.commit(); */
+                                        //intent.putExtra(myInfo);
+                                        startActivity(intent);
+                                        finish();
+                                        //로그인 성공//
+/*<<<<<<< HEAD======= */
 /* >>>>>>> ff4194d15ff9d6d521bbe2d1cc6752601d90e727 */
                                     } else {
                                         Toast.makeText(LoginActivity.this, "failed id", Toast.LENGTH_SHORT);
@@ -104,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }});
     }
-/* TODO MYINFO 초기화
+
     private void getFirebaseDatabase() {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -134,5 +131,5 @@ public class LoginActivity extends AppCompatActivity {
         };
         kPostReference.child("ROOM").child("room"+myInfo.getRoomID()).child("room_info").addValueEventListener(postListener);
     }
-    */
+
 }

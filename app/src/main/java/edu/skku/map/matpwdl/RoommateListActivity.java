@@ -39,6 +39,8 @@ public class RoommateListActivity extends AppCompatActivity{
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_roommate_list );
         data = new ArrayList<String>();
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
+
         stET = (EditText) findViewById( R.id.stET );
         newmemberET = (EditText) findViewById( R.id.idET );
         stbtn = (Button) findViewById( R.id.button );
@@ -50,6 +52,10 @@ public class RoommateListActivity extends AppCompatActivity{
         myInfo = new MyInformation();
         Intent intent = getIntent();
         myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
+
+        //set Adapter
+        //make knockAdapter and set List
+        listView.setAdapter(arrayAdapter);
 
         Log.d("RoommateTest", myInfo.getRoomID());
         stbtn.setOnClickListener( new View.OnClickListener(){
@@ -87,23 +93,23 @@ public class RoommateListActivity extends AppCompatActivity{
                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                    String key = postSnapshot.getKey();
                    Roommatelistitem get = postSnapshot.getValue(Roommatelistitem.class);
-
-                   if(get.roomid == myInfo.getRoomID()){
-                        String[] info = {get.roommatename, get.status };
-                        String result = info[0] + "  " + info[1];
-                        data.add(result);
-                   Log.d("getFirebaseDatabase", "key: " + key);
-                   Log.d("getFirebaseDatabase", "info: " + info[0] + info[1]);}
+                   Log.d("getFirebaseDatabase", "info: " + get.getName());
+                   if(get.getRoomID().equals(myInfo.getRoomID())) {
+                       String[] info = {get.getName(), get.getStatus()};
+                       String result = info[0] + " : " + info[1];
+                       data.add(result);
+                       Log.d("getFirebaseDatabase", "key: " + key);
+                       Log.d("getFirebaseDatabase", "info: " + info[0] + info[1]);
+                   }
                }
-               arrayAdapter.clear();
-               arrayAdapter.addAll(data);
                arrayAdapter.notifyDataSetChanged();
            }
            @Override
            public void onCancelled(@NonNull DatabaseError databaseError) {
            }
        };
-       mPostReference.child("ROOM/room"+ myInfo.getRoomID()+"/member").addValueEventListener(postListener);
+       //mPostReference.child("ROOM/room"+ myInfo.getRoomID()+"/member").addValueEventListener(postListener);
+        mPostReference.child("MEMBER").addValueEventListener(postListener);
    }
 
     public String getmembercount() {
