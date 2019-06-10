@@ -1,6 +1,7 @@
 package edu.skku.map.matpwdl;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ public class RoommateListActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_roommate_list );
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(-1849999));
+        setTitle( "Roommate" );
         data = new ArrayList<String>();
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
 

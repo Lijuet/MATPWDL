@@ -52,10 +52,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        ActionBar bar = getActionBar();
-        bar.setBackgroundDrawable( new ColorDrawable(1849999) );
-        setTitle( "Login" );
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         kPostReference = FirebaseDatabase.getInstance().getReference();
