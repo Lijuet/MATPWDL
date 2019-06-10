@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -99,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         if(KPA != null) KPA.finish();
 
         //initialize basic information
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
         Log.d("LoginTest","Home Activity :" + myInfo.getName());
         room_id = myInfo.getRoomID();
@@ -163,7 +164,19 @@ public class HomeActivity extends AppCompatActivity {
         logout.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
+                LoginActivity LA = (LoginActivity)LoginActivity._LoginActivity;
+                if(LA != null) LA.finish();
+                Log.d("LogoutTest","click");
 
+                SharedPreferences prefs = getSharedPreferences("loginFile",MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+
+                editor.commit();
+                Intent intentLogout = new Intent(HomeActivity.this, LoginActivity.class);
+                intentLogout.putExtra("logout", true);
+                intentLogout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intentLogout);
             }
         });
 

@@ -1,6 +1,7 @@
 package edu.skku.map.matpwdl;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 public class NoRoomActivity extends AppCompatActivity {
 
-    Button button_makeRoom;
+    Button button_makeRoom, btn_logout;
     EditText editText_roomName;
     private DatabaseReference rPostReference;
     private DatabaseReference mPostReference;
@@ -48,6 +49,7 @@ public class NoRoomActivity extends AppCompatActivity {
         mPostReference = FirebaseDatabase.getInstance().getReference();
         editText_roomName = findViewById(R.id.editText_roomName);
         button_makeRoom = findViewById(R.id.button_makeRoom);
+        btn_logout = findViewById(R.id.button_logoutNoRoom);
         button_makeRoom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -64,6 +66,24 @@ public class NoRoomActivity extends AppCompatActivity {
                         finish();
                     }
                 }
+            }
+        });
+        btn_logout.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                LoginActivity LA = (LoginActivity)LoginActivity._LoginActivity;
+                if(LA != null) LA.finish();
+                Log.d("LogoutTest","click");
+
+                SharedPreferences prefs = getSharedPreferences("loginFile",MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+
+                editor.commit();
+                Intent intentLogout = new Intent(NoRoomActivity.this, LoginActivity.class);
+                intentLogout.putExtra("logout", true);
+                intentLogout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intentLogout);
             }
         });
     }
