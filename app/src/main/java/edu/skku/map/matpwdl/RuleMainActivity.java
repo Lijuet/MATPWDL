@@ -91,8 +91,10 @@ public class RuleMainActivity extends AppCompatActivity {
                 //오늘 요일이 포함된 규칙을 앞으로
                 int nWeek = calender.get(Calendar.DAY_OF_WEEK);
                 for(int i = rules.size() - 1; i>0; i--){
-                    if(matchWeek(rules.get(i),nWeek)){
-                        Collections.swap(rules,i,0);
+                    if(rules.get(i).repeat!=-1){
+                        if(matchWeek(rules.get(i),nWeek)){
+                            Collections.swap(rules,i,0);
+                        }
                     }
                 }
 

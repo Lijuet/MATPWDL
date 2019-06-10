@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RuleNoticeService extends Service {
     NotificationManager notificationManager;
@@ -128,12 +130,19 @@ public class RuleNoticeService extends Service {
                     try {
                         Date ruleDate = simpleDateFormat.parse(rules.get(i).time);
                         String ruleTime = simpleDateFormat.format(ruleDate);
-                        Log.d("time",time+" AND "+ruleTime);
-                        if (ruleTime.equals(time)) {
-                            Log.d("time","SAMEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                        //Log.d("time",time+" AND "+ruleTime);
+                        Calendar calender = Calendar.getInstance();
+                        int nWeek = calender.get(Calendar.DAY_OF_WEEK);
+                        if ((ruleTime.equals(time))&&(rules.get(i).repeat!=-1)&&(matchWeek(rules.get(i),nWeek))) {
                             notifiTitle = rules.get(i).title;
                             notifiContent = rules.get(i).content;
                             handler.sendEmptyMessage(0);
+                            if(rules.get(i).repeat==0){
+                                String header = "[종료]";
+                                header+=rules.get(i).title;
+                                postFirebaseDatabase(true,header,rules.get(i).content,
+                                        rules.get(i).day, rules.get(i).member,-1,rules.get(i).rule_id,rules.get(i).time);
+                            }
                         }
                     } catch(ParseException e) {e.printStackTrace();}
                 }
@@ -171,4 +180,48 @@ public class RuleNoticeService extends Service {
         rPostReference.child("ROOM").child("room1").child("rule").addValueEventListener(postListener);
     }
 
+    public void postFirebaseDatabase(boolean add, String title, String content, String day, String member, int repeat, String rule_id, String time){
+        Map<String,Object> childUpdates = new HashMap<>();
+        Map<String,Object> postValues = null;
+        if(add){
+            ListViewRuleItem post = new ListViewRuleItem(content,day,member,repeat,rule_id,time,title);
+            postValues = post.toMap();
+        }
+        childUpdates.put("ROOM/room1/rule/rule"+rule_id , postValues);
+        rPostReference.updateChildren(childUpdates);
+    }
+
+    //규칙이 오늘 해야 하는것인지 확인
+    public boolean matchWeek(ListViewRuleItem rule, int week){
+        String weekInfo = rule.getWeek();
+        if(week == 1){
+            if(weekInfo.contains("일")) return true;
+            else return false;
+        }
+        else if(week == 2){
+            if(weekInfo.contains("월")) return true;
+            else return false;
+        }
+        else if(week == 3){
+            if(weekInfo.contains("화")) return true;
+            else return false;
+        }
+        else if(week == 4){
+            if(weekInfo.contains("수")) return true;
+            else return false;
+        }
+        else if(week == 5){
+            if(weekInfo.contains("목")) return true;
+            else return false;
+        }
+        else if(week == 6){
+            if(weekInfo.contains("금")) return true;
+            else return false;
+        }
+        else if(week == 7){
+            if(weekInfo.contains("토")) return true;
+            else return false;
+        }
+        return false;
+    }
 }

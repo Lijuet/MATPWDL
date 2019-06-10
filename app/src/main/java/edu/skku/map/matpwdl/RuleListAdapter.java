@@ -63,9 +63,9 @@ public class RuleListAdapter extends BaseAdapter{
 
         title.setText(item.getTitle());
         content.setText((item.getContent()+"\n"));
-        week.setText(("*요일: "+item.getWeek()));
-        time.setText(("*시간: "+item.getTime()));
-        member.setText(("*멤버: "+item.getMember()));
+        week.setText(("·요일: "+item.getWeek()));
+        time.setText(("·시간: "+item.getTime()));
+        member.setText(("·멤버: "+item.getMember()));
 
         Button shareBtn = view.findViewById(R.id.button_shareRule);
         Button editBtn = view.findViewById(R.id.button_editRule);
