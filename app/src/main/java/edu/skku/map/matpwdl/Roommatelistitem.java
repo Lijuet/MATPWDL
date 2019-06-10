@@ -30,7 +30,6 @@ public class Roommatelistitem{
     public String getRoomID(){ return roomID; }
     public String getID(){return ID;}
     public String getPW(){return PW;}
-    public String getID(){ return ID; }
 
     public void setMemberid(String _memberid){ this.memberid = _memberid; }
     public void setName(String _name){ this.name = _name; }
@@ -38,7 +37,6 @@ public class Roommatelistitem{
     public void setRoomID(String _roomID){ this.roomID = _roomID; }
     public void setID(String ID){this.ID = ID;}
     public void setPW(String PW){this.PW = PW;}
-    public void setID(String _ID){ this.roomID = _ID; }
 
 
     public Roommatelistitem(String _memberid){
