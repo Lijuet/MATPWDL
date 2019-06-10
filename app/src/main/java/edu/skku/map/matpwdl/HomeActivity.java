@@ -52,6 +52,7 @@ public class HomeActivity extends AppCompatActivity {
     ConstraintLayout constraint_rule;
     ConstraintLayout constraint_knock;
     Button toMemberList;
+    Button logout;
     TextView textView_notice;
     TextView textView_notice2;
     TextView textView_notice3;
@@ -68,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
     String knock1 = " · ";
     String knock2 = " · ";
     String knock3 = " · ";
+    String room_id;
     MyInformation myInfo;
     float [] homeBlueColor = {214,32,93};
     @Override
@@ -80,6 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         constraint_rule = findViewById(R.id.constraint_rule);
         constraint_knock = findViewById(R.id.constraint_knock);
         toMemberList = findViewById(R.id.button_toMemberList);
+        logout = findViewById(R.id.button_logout);
         textView_notice = findViewById(R.id.textView_notice);
         textView_notice2 = findViewById(R.id.textView_notice2);
         textView_notice3 = findViewById(R.id.textView_notice3);
@@ -98,6 +101,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
         Log.d("LoginTest","Home Activity :" + myInfo.getName());
+        room_id = myInfo.getRoomID();
 
 
         //공지
@@ -152,6 +156,13 @@ public class HomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(HomeActivity.this, RoommateListActivity.class);
                 intent.putExtra("myInfo",myInfo);
                 startActivity(intent);
+            }
+        });
+
+        logout.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
@@ -269,7 +280,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         };
-        rPostReference.child("ROOM").child("room1").child("rule").addValueEventListener(postListener);
+        rPostReference.child("ROOM").child("room"+room_id).child("rule").addValueEventListener(postListener);
     }
 
     private void getFirebaseDatabaseKnock() {
@@ -355,7 +366,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         };
         Log.d("onDataChange", "reference change");
-        kPostReference.child("ROOM").child("room1").child("knock").addValueEventListener(postListener);
+        kPostReference.child("ROOM").child("room"+room_id).child("knock").addValueEventListener(postListener);
     }
 
     //규칙이 오늘 해야 하는것인지 확인
