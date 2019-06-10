@@ -75,12 +75,12 @@ public class HomeActivity extends AppCompatActivity {
     String knock2 = " · ";
     String knock3 = " · ";
     MyInformation myInfo;
-    float [] hsv = {224, 80, 56};
+    float [] hsv = {224, 55, 25};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.HSVToColor( hsv )));
         setTitle( "Home" );
         constraint_notice = findViewById(R.id.constraint_notice);
         constraint_rule = findViewById(R.id.constraint_rule);

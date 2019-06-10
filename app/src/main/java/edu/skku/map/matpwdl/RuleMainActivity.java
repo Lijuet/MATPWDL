@@ -1,6 +1,8 @@
 package edu.skku.map.matpwdl;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -31,12 +33,13 @@ public class RuleMainActivity extends AppCompatActivity {
     String biggest_rule_id = "0";
     Calendar calender;
     MyInformation myInfo;
-
+    float [] hsv = {333, 100, 100};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rule_main);
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
+        setTitle( "Rule" );
         //Initialize MyInformation
         Intent intent = getIntent();
         myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
