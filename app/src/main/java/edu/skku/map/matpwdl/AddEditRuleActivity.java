@@ -3,6 +3,7 @@ package edu.skku.map.matpwdl;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
@@ -18,8 +19,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class AddEditRuleActivity extends AppCompatActivity {
 
@@ -40,6 +44,8 @@ public class AddEditRuleActivity extends AppCompatActivity {
     EditText editText_hour;
     EditText editText_minute;
     Context myContext = this;
+    String room_id;
+    final ArrayList<String> selectedMembers = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,8 @@ public class AddEditRuleActivity extends AppCompatActivity {
         rPostReference = FirebaseDatabase.getInstance().getReference();
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
         setTitle( "Rule" );
+        Intent intent = getIntent();
+
         button_addMember = findViewById(R.id.button_addmember);
         button_save = findViewById(R.id.button_save);
         checkBox_repeat = findViewById(R.id.checkBox_repeat);
@@ -63,8 +71,12 @@ public class AddEditRuleActivity extends AppCompatActivity {
         editText_hour = findViewById(R.id.editText_hour);
         editText_minute = findViewById(R.id.editText_minute);
 
+        //MyInformation myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
+        //final Map<Integer,String> roommatessID = myInfo.getRoommatessID();
+        final String[] arr = intent.getStringArrayExtra("arr");
+        room_id = intent.getStringExtra("room_id");
+
         //글을 수정하는 경우 수정할 글의 정보를 받아온다.
-        Intent intent = getIntent();
         final String rule_id = intent.getStringExtra("rule_id");
         String day = intent.getStringExtra("day");
         String time = intent.getStringExtra("time");
@@ -96,24 +108,28 @@ public class AddEditRuleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //멤버 팝업창
                 AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
-                final ArrayList<String> selectedMembers = new ArrayList<String>();
-                ArrayList<String> members = new ArrayList<String>();
-                members.add("a");
-                members.add("b");
-                String[] arr = new String[members.size()];
-                for(int i=0; i<members.size(); i++){
-                    arr[i] = members.get(i);
+                /*
+                String[] arr = new String[roommatessID.size()];
+
+                Iterator<Integer> keys = roommatessID.keySet().iterator();
+                int i= 0;
+                while(keys.hasNext()){
+                    int key = keys.next();
+                    arr[i] = roommatessID.get(key);
+                    i++;
                 }
+                */
+
                 builder.setTitle("멤버 선택");
 
                 builder.setMultiChoiceItems(arr, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int pos, boolean isChecked) {
                         if(isChecked==true){
-
+                            selectedMembers.add(arr[pos]);
                         }
                         else{
-
+                            selectedMembers.remove(arr[pos]);
                         }
                     }
                 });
@@ -147,7 +163,11 @@ public class AddEditRuleActivity extends AppCompatActivity {
                 if(checkBox_sat.isChecked()) day+="토 ";
                 if(checkBox_sun.isChecked()) day+="일 ";
 
-                String member="";//임시
+                String member="";
+                for(int i=0; i<selectedMembers.size(); i++){
+                    member+=selectedMembers.get(i);
+                    member+=' ';
+                }
 
                 if((title!=null)&&(content!=null)) { //빈 제목 or 빈 내용 금지
                     //데이터베이스에 업로드
@@ -170,7 +190,7 @@ public class AddEditRuleActivity extends AppCompatActivity {
             ListViewRuleItem post = new ListViewRuleItem(content,day,member,repeat,rule_id,time,title);
             postValues = post.toMap();
         }
-        childUpdates.put("ROOM/room1/rule/rule"+rule_id , postValues);
+        childUpdates.put("ROOM/room"+room_id+"/rule/rule"+rule_id , postValues);
         rPostReference.updateChildren(childUpdates);
     }
 }

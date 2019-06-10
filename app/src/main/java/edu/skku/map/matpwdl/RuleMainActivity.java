@@ -21,6 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+
 //https://yeolco.tistory.com/85
 public class RuleMainActivity extends AppCompatActivity {
 
@@ -32,12 +35,19 @@ public class RuleMainActivity extends AppCompatActivity {
     ListViewRuleItem testRule;
     String biggest_rule_id = "0";
     Calendar calender;
+    String room_id;
+
     MyInformation myInfo;
     float [] hsv = {333, 100, 100};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rule_main);
+
+        //Map<Integer,String> roommatessID = myInfo.getRoommatessID();
+        Intent myIntent = getIntent();
+        final String[] arr = myIntent.getStringArrayExtra("arr");
+        room_id = myIntent.getStringExtra("room_id");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
         setTitle( "Rule" );
         //Initialize MyInformation
@@ -56,6 +66,8 @@ public class RuleMainActivity extends AppCompatActivity {
             public void onClick(View view){
                 String rule_id = Integer.toString((Integer.parseInt(biggest_rule_id) + 1));
                 Intent intent = new Intent(RuleMainActivity.this,AddEditRuleActivity.class);
+                //intent.putExtra("myInfo",myInfo);
+                intent.putExtra("arr",arr);
                 intent.putExtra("rule_id",rule_id);
                 intent.putExtra("content","");
                 intent.putExtra("day","");
@@ -63,11 +75,12 @@ public class RuleMainActivity extends AppCompatActivity {
                 intent.putExtra("time","");
                 intent.putExtra("title","");
                 intent.putExtra("repeat",0);
+                intent.putExtra("room_id",room_id);
                 startActivity(intent);
             }
         });
 
-        ruleListAdapter = new RuleListAdapter(this, rules);
+        ruleListAdapter = new RuleListAdapter(this, rules,arr,room_id);
         listView.setAdapter(ruleListAdapter);
 
         calender = Calendar.getInstance(); //요일 확인용
@@ -109,7 +122,7 @@ public class RuleMainActivity extends AppCompatActivity {
             }
         };
 
-        rPostReference.child("ROOM").child("room1").child("rule").addValueEventListener(postListener);
+        rPostReference.child("ROOM").child("room"+room_id).child("rule").addValueEventListener(postListener);
     }
 
     //규칙이 오늘 해야 하는것인지 확인

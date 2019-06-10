@@ -39,6 +39,7 @@ public class RuleNoticeService extends Service {
     boolean readingData = false;
     String notifiTitle="";
     String notifiContent="";
+    String room_id;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 
     public RuleNoticeService() {
@@ -54,16 +55,20 @@ public class RuleNoticeService extends Service {
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        myServiceHandler handler = new myServiceHandler();
-        thread = new ServiceThread(handler);
-        thread.start();
+
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        return START_STICKY;
+        room_id = intent.getStringExtra("room_id");
+
+        myServiceHandler handler = new myServiceHandler();
+        thread = new ServiceThread(handler);
+        thread.start();
+
+        return START_NOT_STICKY;
         //return super.onStartCommand(intent, flags, startId);
     }
 
@@ -177,7 +182,7 @@ public class RuleNoticeService extends Service {
 
             }
         };
-        rPostReference.child("ROOM").child("room1").child("rule").addValueEventListener(postListener);
+        rPostReference.child("ROOM").child("room"+room_id).child("rule").addValueEventListener(postListener);
     }
 
     public void postFirebaseDatabase(boolean add, String title, String content, String day, String member, int repeat, String rule_id, String time){
@@ -187,7 +192,7 @@ public class RuleNoticeService extends Service {
             ListViewRuleItem post = new ListViewRuleItem(content,day,member,repeat,rule_id,time,title);
             postValues = post.toMap();
         }
-        childUpdates.put("ROOM/room1/rule/rule"+rule_id , postValues);
+        childUpdates.put("ROOM/room"+room_id+"/rule/rule"+rule_id , postValues);
         rPostReference.updateChildren(childUpdates);
     }
 

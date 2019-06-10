@@ -37,7 +37,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
     private DatabaseReference kPostReference;
     EditText IDeditText, PWeditText;
-    Button button;
+    Button button, button_signUp;
     String id, pw, shakey;
     boolean loginSuccess = false;
     Intent intent;
@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         PWeditText = (EditText) findViewById(R.id.editpw);
         button = (Button) findViewById(R.id.button2);
         myInfo = new MyInformation();
+        button_signUp = findViewById(R.id.button_signUp);
 
 
         //자동 로그인 파트
@@ -80,6 +81,14 @@ public class LoginActivity extends AppCompatActivity {
                     getFirebaseDatabase();
 
                 }
+            }
+        });
+
+        button_signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
             }
         });
 
