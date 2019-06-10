@@ -37,8 +37,8 @@ public class KnockPopupActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Boolean SCREENON = intent.getBooleanExtra("SCREENON", true);
-        newKnock = (Knock) intent.getSerializableExtra("NEWKNOCK");
-        myInfo = (MyInformation) intent.getSerializableExtra("myinfo");
+        newKnock = intent.getParcelableExtra("NEWKNOCK");
+        myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
 
         if(!SCREENON) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED

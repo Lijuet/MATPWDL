@@ -51,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseReference kPostReference = FirebaseDatabase.getInstance().getReference();
     ArrayList<ListViewRuleItem> rules = new ArrayList<>();
     ArrayList<Knock> allKnocks = new ArrayList<>();
+    ArrayList<Knock> newKnocks = new ArrayList<>();
     Calendar calender = Calendar.getInstance();
 
     ConstraintLayout constraint_notice;
@@ -95,9 +96,15 @@ public class HomeActivity extends AppCompatActivity {
         textView_knock2=findViewById(R.id.textView_knock2);
         textView_knock3=findViewById(R.id.textView_knock3);
 
+        //읽음 후 이동으로 왔다면 popupActivity 종료
+        KnockPopupActivity KPA = (KnockPopupActivity)KnockPopupActivity._KnockPopupActivity;
+        if(KPA != null) KPA.finish();
 
         //initialize basic information
-        InitForTest(); //for TEST TODO delete it after logi section
+        Intent intent = getIntent();
+        myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
+        Log.d("LoginTest","Home Activity :" + myInfo.getName());
+
 
         //공지
         constraint_notice.setOnTouchListener(new View.OnTouchListener() {
@@ -215,18 +222,6 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void InitForTest(){
-        Map<Integer,String> temp = new HashMap<>();
-        temp.put(1, "김초롱");
-        temp.put(2, "박달러");
-        temp.put(3, "황모바");
-        myInfo = new MyInformation();
-        myInfo.setMemberid("1");
-        myInfo.setName("김초롱");
-        myInfo.setRoomID("1");
-        myInfo.setStatus("재실");
-        myInfo.setRoommatessID(temp);
-    }
 
     public void getFirebaseDatabaseRule(){
         final ValueEventListener postListener = new ValueEventListener(){
@@ -278,21 +273,24 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("onDataChange", "Data is Updated");
                 allKnocks.clear();
-                //myKnocks.clear();
                 Log.d("onDataChange", "before Sanpshot");
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Knock getKnock = postSnapshot.getValue(Knock.class);
 
                     String[] info = {getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver().trim(), getKnock.getDate(), getKnock.getKnockID()};
-                    Knock newKnock = new Knock(info[0], info[1], info[2], info[3], info[4]);
-                    newKnock.setRead(getKnock.getRead());
-                    allKnocks.add(newKnock);
+                    Knock knock = new Knock(info[0], info[1], info[2], info[3], info[4]);
+                    knock.setRead(getKnock.getRead());
+                    allKnocks.add(knock);
+                    if(info[2].equals(myInfo.getMemberid()) && getKnock.getRead() == 0){
+                        newKnocks.add(knock);
+                    }
                 }
                 for(int i=allKnocks.size()-1; i>0; i--){
                     for(int j=0; j<i; j++){
                         if(isKnockEarlier(allKnocks.get(j).getDate(),allKnocks.get(j+1).getDate())){
                             Collections.swap(allKnocks,j,j+1);
                         }
+
                     }
                 }
                 for(int i=0; i<allKnocks.size(); i++){
@@ -323,6 +321,29 @@ public class HomeActivity extends AppCompatActivity {
                 textView_knock1.setText(knock1);
                 textView_knock2.setText(knock2);
                 textView_knock3.setText(knock3);
+
+                if(newKnocks.size() != 0){
+                    for(Knock temp : newKnocks){
+                        PowerManager manager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+                        boolean bScreenOn = manager.isScreenOn();
+
+                        Intent intentPopup = new Intent(getApplicationContext(), KnockPopupActivity.class);
+                        intentPopup.putExtra("NEWKNOCK", temp);
+                        intentPopup.putExtra("myInfo",myInfo);
+                        if(bScreenOn){
+                            Log.d("sendMessage", "Screen ON");
+                            intentPopup.putExtra("SCREENON",true);
+                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentPopup);
+                        }else{
+                            Log.d("sendMessage", "Screen OFF");
+                            intentPopup.putExtra("SCREENON",false);
+                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentPopup);
+                        }
+                        newKnocks.remove(temp);
+                    }
+                }
             }
 
             @Override
