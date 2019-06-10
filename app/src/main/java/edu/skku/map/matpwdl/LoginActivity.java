@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.button2);
         myInfo = new MyInformation();
 
-        /*
+
         //자동 로그인 파트
         SharedPreferences sf = getSharedPreferences("loginFile",MODE_PRIVATE);
         defaultValue = sf.getString("firstLoginFlag", null);
@@ -68,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-*/
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
