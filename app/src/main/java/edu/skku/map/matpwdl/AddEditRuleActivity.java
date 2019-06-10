@@ -144,6 +144,7 @@ public class AddEditRuleActivity extends AppCompatActivity {
                 if(checkBox_sun.isChecked()) day+="일 ";
 
                 String member="";//임시
+
                 if((title!=null)&&(content!=null)) { //빈 제목 or 빈 내용 금지
                     //데이터베이스에 업로드
                     postFirebaseDatabase(true, title, content, day, member, repeat, rule_id, time);

@@ -112,6 +112,10 @@ public class HomeActivity extends AppCompatActivity {
         //봉룡학사 사이트에서 공지 크롤링
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
         jsoupAsyncTask.execute();
+
+        //알림 테스트
+        Intent sIntent = new Intent(HomeActivity.this,RuleNoticeService.class);
+        startService(sIntent);
     }
 
     //공지 크롤링 AsyncTask
