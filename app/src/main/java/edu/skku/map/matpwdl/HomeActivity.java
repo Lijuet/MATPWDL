@@ -1,15 +1,30 @@
 package edu.skku.map.matpwdl;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,10 +32,23 @@ import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private Intent serviceIntent;
+    private DatabaseReference rPostReference  = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference kPostReference = FirebaseDatabase.getInstance().getReference();
+    ArrayList<ListViewRuleItem> rules = new ArrayList<>();
+    ArrayList<Knock> allKnocks = new ArrayList<>();
+    Calendar calender = Calendar.getInstance();
 
     ConstraintLayout constraint_notice;
     ConstraintLayout constraint_rule;
@@ -39,6 +67,9 @@ public class HomeActivity extends AppCompatActivity {
     String notice1 = " · ";
     String notice2 = " · ";
     String notice3 = " · ";
+    String knock1 = " · ";
+    String knock2 = " · ";
+    String knock3 = " · ";
     MyInformation myInfo;
 
     @Override
@@ -112,6 +143,14 @@ public class HomeActivity extends AppCompatActivity {
         //봉룡학사 사이트에서 공지 크롤링
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
         jsoupAsyncTask.execute();
+
+        //3개 보여주기
+        getFirebaseDatabaseRule();
+        getFirebaseDatabaseKnock();
+
+        //알림 테스트
+        Intent sIntent = new Intent(HomeActivity.this,RuleNoticeService.class);
+        startService(sIntent);
     }
 
     //공지 크롤링 AsyncTask
@@ -184,6 +223,165 @@ public class HomeActivity extends AppCompatActivity {
         myInfo.setStatus("재실");
         myInfo.setRoommatessID(temp);
     }
+
+    public void getFirebaseDatabaseRule(){
+        final ValueEventListener postListener = new ValueEventListener(){
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot){
+                Log.d("onDataChange","Data is Updated");
+                rules.clear();
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    String key = postSnapshot.getKey();
+                    ListViewRuleItem get = postSnapshot.getValue(ListViewRuleItem.class);
+                    rules.add(get);
+                    Log.d("getFirebaseDatabase","key: "+ key);
+                    Log.d("getFirebaseDatabase",get.title);
+                }
+                //오늘 요일이 포함된 규칙을 앞으로
+                int nWeek = calender.get(Calendar.DAY_OF_WEEK);
+                for(int i = rules.size() - 1; i>0; i--){
+                    if(rules.get(i).repeat!=-1){
+                        if(matchWeek(rules.get(i),nWeek)){
+                            Collections.swap(rules,i,0);
+                        }
+                    }
+                }
+                String ruleHead = " · ";
+                for(int i=0; i<rules.size(); i++){
+                    if(i==0){
+                        textView_rule1.setText(ruleHead+rules.get(i).title);
+                    }
+                    else if(i==1){
+                        textView_rule2.setText(ruleHead+rules.get(i).title);
+                    }
+                    else if(i==2){
+                        textView_rule3.setText(ruleHead+rules.get(i).title);
+                    }
+                    else break;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError){
+
+            }
+        };
+        rPostReference.child("ROOM").child("room1").child("rule").addValueEventListener(postListener);
+    }
+
+    private void getFirebaseDatabaseKnock() {
+        final ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("onDataChange", "Data is Updated");
+                allKnocks.clear();
+                //myKnocks.clear();
+                Log.d("onDataChange", "before Sanpshot");
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Knock getKnock = postSnapshot.getValue(Knock.class);
+
+                    String[] info = {getKnock.getContent(), getKnock.getSender(), getKnock.getReceiver().trim(), getKnock.getDate(), getKnock.getKnockID()};
+                    Knock newKnock = new Knock(info[0], info[1], info[2], info[3], info[4]);
+                    newKnock.setRead(getKnock.getRead());
+                    allKnocks.add(newKnock);
+                }
+                for(int i=allKnocks.size()-1; i>0; i--){
+                    for(int j=0; j<i; j++){
+                        if(isKnockEarlier(allKnocks.get(j).getDate(),allKnocks.get(j+1).getDate())){
+                            Collections.swap(allKnocks,j,j+1);
+                        }
+                    }
+                }
+                for(int i=0; i<allKnocks.size(); i++){
+                    if(i==0){
+                        knock1+=allKnocks.get(i).getContent();
+                    }
+                    else if(i==1){
+                        knock2+=allKnocks.get(i).getContent();
+                    }
+                    else if(i==2){
+                        knock3+=allKnocks.get(i).getContent();
+                    }
+                    else break;
+                }
+                if(knock1.length()>30){
+                    knock1 = knock1.substring(0, 30);
+                    knock1 += "…";
+                }
+                if(knock2.length()>30){
+                    knock2 = knock2.substring(0, 30);
+                    knock2 += "…";
+                }
+                if(knock2.length()>30){
+                    knock2 = knock2.substring(0, 30);
+                    knock2 += "…";
+                }
+
+                textView_knock1.setText(knock1);
+                textView_knock2.setText(knock2);
+                textView_knock3.setText(knock3);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        Log.d("onDataChange", "reference change");
+        kPostReference.child("ROOM").child("room1").child("knock").addValueEventListener(postListener);
+    }
+
+    //규칙이 오늘 해야 하는것인지 확인
+    public boolean matchWeek(ListViewRuleItem rule, int week){
+        String weekInfo = rule.getWeek();
+        if(week == 1){
+            if(weekInfo.contains("일")) return true;
+            else return false;
+        }
+        else if(week == 2){
+            if(weekInfo.contains("월")) return true;
+            else return false;
+        }
+        else if(week == 3){
+            if(weekInfo.contains("화")) return true;
+            else return false;
+        }
+        else if(week == 4){
+            if(weekInfo.contains("수")) return true;
+            else return false;
+        }
+        else if(week == 5){
+            if(weekInfo.contains("목")) return true;
+            else return false;
+        }
+        else if(week == 6){
+            if(weekInfo.contains("금")) return true;
+            else return false;
+        }
+        else if(week == 7){
+            if(weekInfo.contains("토")) return true;
+            else return false;
+        }
+        return false;
+    }
+
+    //knock 날짜 비교
+    public boolean isKnockEarlier(String date1, String date2){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+        try {
+            Date oDate = sdf.parse(date1);
+            Date tDate = sdf.parse(date2);
+
+            long oDateValue = oDate.getTime(), tDateValue = tDate.getTime();
+
+            if(oDateValue > tDateValue) return false;
+            else return true;
+
+        } catch (ParseException e) {
+            Log.d("sortKnock", e.getMessage());
+            return false;
+        }
+    }
+
 }
+
+
 
 

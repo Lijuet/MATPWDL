@@ -1,6 +1,9 @@
 package edu.skku.map.matpwdl;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +36,7 @@ public class AddEditRuleActivity extends AppCompatActivity {
     EditText editText_editRule;
     EditText editText_hour;
     EditText editText_minute;
+    Context myContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,38 @@ public class AddEditRuleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //멤버 팝업창
+                AlertDialog.Builder builder = new AlertDialog.Builder(myContext);
+                final ArrayList<String> selectedMembers = new ArrayList<String>();
+                ArrayList<String> members = new ArrayList<String>();
+                members.add("a");
+                members.add("b");
+                String[] arr = new String[members.size()];
+                for(int i=0; i<members.size(); i++){
+                    arr[i] = members.get(i);
+                }
+                builder.setTitle("멤버 선택");
+
+                builder.setMultiChoiceItems(arr, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int pos, boolean isChecked) {
+                        if(isChecked==true){
+
+                        }
+                        else{
+
+                        }
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int pos) {
+
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
         button_save.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +144,7 @@ public class AddEditRuleActivity extends AppCompatActivity {
                 if(checkBox_sun.isChecked()) day+="일 ";
 
                 String member="";//임시
+
                 if((title!=null)&&(content!=null)) { //빈 제목 or 빈 내용 금지
                     //데이터베이스에 업로드
                     postFirebaseDatabase(true, title, content, day, member, repeat, rule_id, time);

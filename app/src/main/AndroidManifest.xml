@@ -11,14 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".KnockPopupActivity"/>
+        <service
+            android:name=".RuleNoticeService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".KnockPopupActivity" />
         <activity android:name=".SendKnockActivity" />
         <activity android:name=".RuleMainActivity">
             <intent-filter>
-                <!--action android:name="android.intent.action.MAIN" /-->
+
+                <!-- action android:name="android.intent.action.MAIN" / -->
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="@string/kakaolink_host"
                     android:scheme="@string/kakao_scheme" />
@@ -29,14 +36,15 @@
         <activity android:name=".MakeRoomActivity" />
         <activity android:name=".KnockMainActivity">
             <intent-filter>
-                <!--action android:name="android.intent.action.MAIN" /-->
+
+                <!-- action android:name="android.intent.action.MAIN" / -->
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity">
            <intent-filter>
-                <!--action android:name="android.intent.action.MAIN" /-->
+                <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -49,9 +57,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key"/>
+            android:value="@string/kakao_app_key" />
     </application>
 
 </manifest>
