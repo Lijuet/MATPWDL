@@ -29,13 +29,17 @@ import java.util.Map;
 public class RuleListAdapter extends BaseAdapter{
     LayoutInflater inflater;
     Context context;
+    String[] arr;
+    String room_id;
     private ArrayList<ListViewRuleItem> ruleList = new ArrayList<>();
     private DatabaseReference rPostReference = FirebaseDatabase.getInstance().getReference();
 
-    public RuleListAdapter(Context context, ArrayList<ListViewRuleItem> ruleList){
+    public RuleListAdapter(Context context, ArrayList<ListViewRuleItem> ruleList, String[] arr, String room_id){
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.ruleList = ruleList;
         this.context = context;
+        this.arr = arr;
+        this.room_id = room_id;
     }
 
     @Override
@@ -116,6 +120,7 @@ public class RuleListAdapter extends BaseAdapter{
             public void onClick(View v) {
                 String rule_id = item.rule_id;
                 Intent intent = new Intent(context,AddEditRuleActivity.class);
+                intent.putExtra("arr",arr);
                 intent.putExtra("rule_id",rule_id);
                 intent.putExtra("content",item.content);
                 intent.putExtra("day",item.day);
@@ -123,6 +128,7 @@ public class RuleListAdapter extends BaseAdapter{
                 intent.putExtra("time",item.time);
                 intent.putExtra("title",item.title);
                 intent.putExtra("repeat",item.repeat);
+                intent.putExtra("room_id",room_id);
                 context.startActivity(intent);
             }
         });
@@ -137,7 +143,7 @@ public class RuleListAdapter extends BaseAdapter{
                             public void onClick(DialogInterface dialog, int which) {
                                 // 'YES'
                                 Map<String,Object> childUpdates = new HashMap<>();
-                                childUpdates.put("ROOM/room1/rule/rule"+item.rule_id , null);
+                                childUpdates.put("ROOM/room"+room_id+"/rule/rule"+item.rule_id , null);
                                 rPostReference.updateChildren(childUpdates);
                             }
                         }).setNegativeButton("취소",

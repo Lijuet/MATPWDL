@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
@@ -112,9 +113,19 @@ public class HomeActivity extends AppCompatActivity {
         constraint_rule.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                Map<Integer,String> roommatessID = myInfo.getRoommatessID();
+                String[] arr = new String[roommatessID.size()];
+                Iterator<Integer> keys = roommatessID.keySet().iterator();
+                int i= 0;
+                while(keys.hasNext()){
+                    int key = keys.next();
+                    arr[i] = roommatessID.get(key);
+                    i++;
+                }
                 Intent intent = new Intent(HomeActivity.this, RuleMainActivity.class);
+                intent.putExtra("arr",arr);
+                intent.putExtra("room_id",myInfo.getRoomID());
                 startActivity(intent);
-                intent.putExtra("myInfo",myInfo);
                 return false;
             }
         });
@@ -148,8 +159,9 @@ public class HomeActivity extends AppCompatActivity {
         getFirebaseDatabaseRule();
         getFirebaseDatabaseKnock();
 
-        //알림 테스트
+        //알림
         Intent sIntent = new Intent(HomeActivity.this,RuleNoticeService.class);
+        sIntent.putExtra("room_id",myInfo.getRoomID());
         startService(sIntent);
     }
 
