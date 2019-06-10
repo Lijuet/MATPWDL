@@ -1,6 +1,8 @@
 package edu.skku.map.matpwdl;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,7 +33,9 @@ public class KnockDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knock_detail);
-
+        float [] hsv = {193, 100, 100};
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
+        setTitle( "똑똑똑" );
         Intent intent = getIntent();
         myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
         mode = intent.getStringExtra("mode");

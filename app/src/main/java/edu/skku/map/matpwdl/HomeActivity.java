@@ -76,12 +76,12 @@ public class HomeActivity extends AppCompatActivity {
     String knock2 = " · ";
     String knock3 = " · ";
     MyInformation myInfo;
-
+    float [] hsv = {224, 55, 25};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(1697999));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.HSVToColor( hsv )));
         setTitle( "Home" );
         constraint_notice = findViewById(R.id.constraint_notice);
         constraint_rule = findViewById(R.id.constraint_rule);
@@ -97,6 +97,9 @@ public class HomeActivity extends AppCompatActivity {
         textView_knock2=findViewById(R.id.textView_knock2);
         textView_knock3=findViewById(R.id.textView_knock3);
 
+        //읽음 후 이동으로 왔다면 popupActivity 종료
+        KnockPopupActivity KPA = (KnockPopupActivity)KnockPopupActivity._KnockPopupActivity;
+        if(KPA != null) KPA.finish();
 
         //initialize basic information
         Intent intent = getIntent();

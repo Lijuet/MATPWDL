@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
@@ -42,11 +43,11 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent;
     MyInformation myInfo;
     String defaultValue;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle( "Login" );
         kPostReference = FirebaseDatabase.getInstance().getReference();
         intent = new Intent(LoginActivity.this, HomeActivity.class);
         IDeditText = (EditText) findViewById(R.id.editid);
@@ -56,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         button_signUp = findViewById(R.id.button_signUp);
 
         //자동 로그인 파트
-
         SharedPreferences sf = getSharedPreferences("loginFile",MODE_PRIVATE);
         defaultValue = sf.getString("firstLoginFlag", null);
         if (defaultValue != null) { //자동로그인

@@ -2,6 +2,8 @@ package edu.skku.map.matpwdl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -34,7 +36,7 @@ public class KnockMainActivity extends AppCompatActivity {
     private DatabaseReference kPostReference;
     ListView lvAllKnockList, lvMyKnockList;
     FloatingActionButton btnMakeKnock;
-
+    float [] hsv = {193, 100, 100};
     KnockAdapter allKnockAdapter;
     KnockAdapter myKnockAdapter;
     ArrayList<Knock> allKnocks;
@@ -46,7 +48,8 @@ public class KnockMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knock_main);
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
+        setTitle( "똑똑똑" );
         //Initialize MyInformation
         myInfo = new MyInformation();
         Intent intent = getIntent();

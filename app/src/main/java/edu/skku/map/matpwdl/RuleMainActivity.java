@@ -1,6 +1,8 @@
 package edu.skku.map.matpwdl;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,8 @@ public class RuleMainActivity extends AppCompatActivity {
     Calendar calender;
     String room_id;
 
+    MyInformation myInfo;
+    float [] hsv = {333, 100, 100};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +48,11 @@ public class RuleMainActivity extends AppCompatActivity {
         Intent myIntent = getIntent();
         final String[] arr = myIntent.getStringArrayExtra("arr");
         room_id = myIntent.getStringExtra("room_id");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
+        setTitle( "Rule" );
+        //Initialize MyInformation
+        Intent intent = getIntent();
+        myInfo = (MyInformation) intent.getSerializableExtra("myInfo");
 
         //규칙들을 표시할 ListView
         listView = findViewById(R.id.ListView_rules);
