@@ -1,8 +1,10 @@
 package edu.skku.map.matpwdl;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,113 +23,133 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class LoginActivity extends AppCompatActivity {
-    private DatabaseReference kPostReference, kPostReference2;  //TODO MYINFO 초기화
+    private DatabaseReference kPostReference;
     EditText IDeditText, PWeditText;
     Button button;
-    String id, pw, shakey, data, memberID, login;
-    SharedPreferences loginPref;
+    String id, pw, shakey;
+    boolean loginSuccess = false;
     Intent intent;
     MyInformation myInfo;
-    private DatabaseReference mDatabase,postRef;// ...
+    String defaultValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // ...
-// Initialize Firebase Auth
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        kPostReference = FirebaseDatabase.getInstance().getReference();
         intent = new Intent(LoginActivity.this, HomeActivity.class);
         IDeditText = (EditText) findViewById(R.id.editid);
         PWeditText = (EditText) findViewById(R.id.editpw);
         button = (Button) findViewById(R.id.button2);
-        postRef = FirebaseDatabase.getInstance().getReference().child("MEMBER");
-        mDatabase = FirebaseDatabase.getInstance().getReference(); //database
-        /*loginPref = this.getPreferences( Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = loginPref.edit();
-        String defaultValue = loginPref.getString("login", null);
+        myInfo = new MyInformation();
+
+        //자동 로그인 파트
+
+        SharedPreferences sf = getSharedPreferences("loginFile",MODE_PRIVATE);
+        defaultValue = sf.getString("firstLoginFlag", null);
         if (defaultValue != null) { //자동로그인
-            startActivity(intent);
-            finish();
-        } */
+            id = sf.getString("ID","");
+            pw = sf.getString("PW","");
+            if(!id.equals("")&&!pw.equals("")) {
+                getFirebaseDatabase();
+                finish();
+            }
+        }
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loginSuccess = false;
                 id = IDeditText.getText().toString().trim();
                 pw = PWeditText.getText().toString().trim();
-                login = id +pw;
                 if ((id.length() * pw.length()) == 0) {
                     Toast.makeText(LoginActivity.this, "Type all info...", Toast.LENGTH_SHORT);
                 } else {
-                    postRef.orderByChild("IDPW").equalTo(login).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.exists()){
-                                        myInfo = dataSnapshot.getValue(MyInformation.class);
-                                        Log.d("LoginTest",myInfo.getRoomID()+myInfo.getName());
-                                        //getFirebaseDatabase();
-                                        /*shakey = id + " " + pw;
-                                        Log.d("shakey", shakey);
-                                        // Save LOGIN information in shared preferences
-                                        editor.putString("login", shakey);
-                                        editor.commit(); */
-                                        //intent.putExtra(myInfo);
-                                        startActivity(intent);
-                                        finish();
-                                        //로그인 성공//
-/*<<<<<<< HEAD======= */
-/* >>>>>>> ff4194d15ff9d6d521bbe2d1cc6752601d90e727 */
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "failed id", Toast.LENGTH_SHORT);
-                                    }
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                }
-                });
+                    getFirebaseDatabase();
+
+                }
             }
-        }});
+        });
+
     }
 
     private void getFirebaseDatabase() {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String membersize = (String) dataSnapshot.child("membersize").getValue();
-
-                    for(int i = 1; i < Integer.valueOf(membersize) + 1; i++){
-                        memberID = (String) dataSnapshot.child("smp_"+ String.valueOf(i) + "member_id").getValue();
-                        postRef.orderByChild("memberid").equalTo(memberID).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                                    myInfo.addRoommatessID(Integer.valueOf(memberID), (String)postSnapshot.child("name").getValue());
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    MyInformation temp = postSnapshot.getValue(MyInformation.class);
+                    Log.d("LoginTest", temp.getID() + " " + temp.getPW() + " " + String.valueOf(loginSuccess));
+                    if(temp.getID().equals(id) && temp.getPW().equals(pw)) {
+                        loginSuccess = true;
+                        myInfo = temp;
                     }
+                }
+                login();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         };
-        kPostReference.child("ROOM").child("room"+myInfo.getRoomID()).child("room_info").addValueEventListener(postListener);
+        kPostReference.child("MEMBER").addValueEventListener(postListener);
     }
 
+    void login(){
+        if(loginSuccess) {
+            if(defaultValue == null) {
+                SharedPreferences loginPref = getSharedPreferences("loginFile", MODE_PRIVATE);
+                SharedPreferences.Editor editor = loginPref.edit();
+                shakey = id + " " + pw;
+                editor.putString("firstLoginFlag", shakey);
+                editor.putString("ID", id);
+                editor.putString("PW", pw);
+                editor.commit();
+            }
+            getroomlist();
+        }
+        else{
+            Toast.makeText(LoginActivity.this, "Login Fail", Toast.LENGTH_SHORT);
+        }
+    }
+
+    public void getroomlist() {
+        final ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<Integer, String> roommatessID = new HashMap<>();
+                Log.d("onDataChange", "Data is Updated");
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    Roommatelistitem get = postSnapshot.getValue(Roommatelistitem.class);
+                    Log.d("getFirebaseDatabase", "info: " + get.getName());
+                    if(get.getRoomID().equals(myInfo.getRoomID())) {
+                        Log.d("LoginTest",get.getMemberid() + get.getName());
+                        roommatessID.put(Integer.valueOf(get.getMemberid()), get.getName());
+                    }
+                }
+                myInfo.setRoommatessID(roommatessID);
+
+                intent.putExtra("myInfo", myInfo);
+                startActivity(intent);
+                finish();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        kPostReference.child("MEMBER").addValueEventListener(postListener);
+    }
 }

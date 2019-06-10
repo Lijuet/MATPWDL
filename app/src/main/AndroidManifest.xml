@@ -16,7 +16,7 @@
         <service
             android:name=".RuleNoticeService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"></service>
 
         <activity android:name=".KnockPopupActivity" />
         <activity android:name=".SendKnockActivity" />
@@ -45,8 +45,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+           <intent-filter>
+               <!-- action android:name="android.intent.action.MAIN" / -->
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

@@ -170,27 +170,7 @@ public class KnockMainActivity extends AppCompatActivity {
 
                     Log.d("sendMessage","before if");
                     //나에게 새로 들어온 message 라면
-                    if(info[2].equals(myInfo.getMemberid()) && getKnock.getRead() == 0){
-                        Log.d("sendMessage","notice");
-                        PowerManager manager = (PowerManager)getSystemService(Context.POWER_SERVICE);
-                        boolean bScreenOn = manager.isScreenOn();
-                        Log.d("sendMessage","check SCREENON");
 
-                        Intent intentPopup = new Intent(getApplicationContext(), KnockPopupActivity.class);
-                        intentPopup.putExtra("NEWKNOCK", getKnock);
-                        intentPopup.putExtra("myInfo",myInfo);
-                        if(bScreenOn){
-                            Log.d("sendMessage", "Screen ON");
-                            intentPopup.putExtra("SCREENON",true);
-                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intentPopup);
-                        }else{
-                            Log.d("sendMessage", "Screen OFF");
-                            intentPopup.putExtra("SCREENON",false);
-                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intentPopup);
-                        }
-                    }
                 }
                 allKnockAdapter.SortKnocks();
                 myKnockAdapter.SortKnocks();
