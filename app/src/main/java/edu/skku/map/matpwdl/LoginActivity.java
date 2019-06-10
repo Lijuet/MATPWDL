@@ -1,12 +1,14 @@
 package edu.skku.map.matpwdl;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -37,10 +39,11 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private DatabaseReference kPostReference;
+    public static Activity _LoginActivity;
     EditText IDeditText, PWeditText;
     Button button, button_signUp;
     String id, pw, shakey;
-    boolean loginSuccess = false;
+    boolean loginSuccess = false, logout = false;
     Intent intent;
     MyInformation myInfo;
     String defaultValue;
@@ -50,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.DefaultGray)));
         setTitle( "LOGIN" );
+        _LoginActivity = LoginActivity.this;
         kPostReference = FirebaseDatabase.getInstance().getReference();
         intent = new Intent(LoginActivity.this, HomeActivity.class);
         IDeditText = (EditText) findViewById(R.id.editid);
@@ -58,6 +62,15 @@ public class LoginActivity extends AppCompatActivity {
         myInfo = new MyInformation();
         button_signUp = findViewById(R.id.button_signUp);
 
+        //if logout flag is true
+
+        Intent intent = getIntent();
+        if(intent != null){
+            intent.getBooleanExtra("logout", false);
+            if(logout){
+                myInfo = new MyInformation();
+            }
+        }
 
         //자동 로그인 파트
         SharedPreferences sf = getSharedPreferences("loginFile",MODE_PRIVATE);
