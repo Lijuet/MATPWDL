@@ -78,7 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                 id = IDeditText.getText().toString().trim();
                 pw = PWeditText.getText().toString().trim();
                 if ((id.length() * pw.length()) == 0) {
-                    Toast.makeText(LoginActivity.this, "Type all info...", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(LoginActivity.this, "Type all info...", Toast.LENGTH_SHORT);
+                    toast.show();
                 } else {
                     getFirebaseDatabase();
 
@@ -139,7 +140,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         else{
-            Toast.makeText(LoginActivity.this, "Login Fail", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(LoginActivity.this, "Login Fail", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
