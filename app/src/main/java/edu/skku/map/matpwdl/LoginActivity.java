@@ -1,8 +1,10 @@
 package edu.skku.map.matpwdl;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
     private DatabaseReference kPostReference, kPostReference2;  //TODO MYINFO 초기화
     EditText IDeditText, PWeditText;
+
     Button button;
     String id, pw, shakey, data, memberID, login, count;
     SharedPreferences loginPref;
@@ -50,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable( new ColorDrawable(1849999) );
+        setTitle( "Login" );
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         kPostReference = FirebaseDatabase.getInstance().getReference();
