@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class RoommateListActivity extends AppCompatActivity{
     private DatabaseReference mPostReference;
+    Roommatelistitem newMember = new Roommatelistitem();
     String ID,name,status = "";
     EditText stET, newmemberET;
     Button stbtn, newbtn;
@@ -34,6 +35,7 @@ public class RoommateListActivity extends AppCompatActivity{
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
     private String mc;
+    boolean existID = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class RoommateListActivity extends AppCompatActivity{
                     Toast.makeText( RoommateListActivity.this, "Data is missing", Toast.LENGTH_SHORT ).show();
                 } else {
                     postmystatusDatabase( true );
+                    clearET();
                 }
             }
         } );
@@ -79,7 +82,7 @@ public class RoommateListActivity extends AppCompatActivity{
                 if (ID.length() == 0) {
                     Toast.makeText( RoommateListActivity.this, "Data is missing", Toast.LENGTH_SHORT ).show();
                 } else {
-                    postnewmember( true );
+                    existID();
                 }
             }
         } );
@@ -133,22 +136,38 @@ public class RoommateListActivity extends AppCompatActivity{
         return mc;
     }
 
-
-
-    public void postnewmember(boolean add){
-            Map<String, Object> childUpdates = new HashMap<>();
-            Map<String, Object> postValues = null;
-        String membercount;
-        membercount = getmembercount();
-            if(add){
-                Roommatelistitem post = new Roommatelistitem(ID);
-                postValues = post.toMap();
-                childUpdates.put("/ROOM/" + "room"+ myInfo.getRoomID() + "/member/" + "smp_"+ membercount +"memberid", ID);//smp_x수치 조정 피룡
+    private void existID(){
+        existID = false;
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    Roommatelistitem get = postSnapshot.getValue( Roommatelistitem.class );
+                    if(get.getID().equals(ID)){
+                        get.setRoomID(myInfo.getRoomID());
+                        newMember = get;
+                        existID = true;
+                    }
+                }
+                postnewmember();
             }
-            mPostReference.child( "ROOM" ).child( "member" ).child( "membersize" ).setValue(  String.valueOf (membercount+1) );
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        mPostReference.child("MEMBER").addValueEventListener(postListener);
+    }
 
-            mPostReference.updateChildren(childUpdates);
+    public void postnewmember(){
+        if(existID){
+            mPostReference.child("MEMBER").child("member"+newMember.getMemberid()).child("roomID").setValue(myInfo.getRoomID());
             clearET();
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"There is no such ID", Toast.LENGTH_SHORT).show();
+            clearET();
+        }
     }
 
     public void getstatus() {

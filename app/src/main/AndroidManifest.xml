@@ -11,10 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".NoRoomActivity"></activity>
+
         <service
             android:name=".RuleNoticeService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity android:name=".KnockPopupActivity" />
         <activity android:name=".SendKnockActivity" />
@@ -43,8 +45,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity">
-           <intent-filter>
-               <!-- action android:name="android.intent.action.MAIN" / -->
+            <intent-filter>
+
+                <!-- action android:name="android.intent.action.MAIN" / -->
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

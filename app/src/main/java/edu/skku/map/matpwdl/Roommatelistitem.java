@@ -8,6 +8,7 @@ public class Roommatelistitem{
     private String name;
     private String status;
     private String roomID;
+    private String ID;
 
     public Roommatelistitem(){
         //Constructor
@@ -17,11 +18,13 @@ public class Roommatelistitem{
     public String getName(){ return name;}
     public String getStatus(){ return status; }
     public String getRoomID(){ return roomID; }
+    public String getID(){ return ID; }
 
     public void setMemberid(String _memberid){ this.memberid = _memberid; }
     public void setName(String _name){ this.name = _name; }
     public void setStatus(String _status){ this.status = _status; }
     public void setRoomID(String _roomID){ this.roomID = _roomID; }
+    public void setID(String _ID){ this.roomID = _ID; }
 
 
     public Roommatelistitem(String _memberid){
@@ -34,6 +37,7 @@ public class Roommatelistitem{
         result.put("name", name);
         result.put("roomID", roomID);
         result.put("status",status);
+        result.put("ID", ID);
         return result;
     }
 
