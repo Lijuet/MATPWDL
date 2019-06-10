@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -48,9 +49,9 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Knock> newKnocks = new ArrayList<>();
     Calendar calender = Calendar.getInstance();
 
-    ConstraintLayout constraint_notice;
-    ConstraintLayout constraint_rule;
-    ConstraintLayout constraint_knock;
+    LinearLayout constraint_notice;
+    LinearLayout constraint_rule;
+    LinearLayout constraint_knock;
     Button toMemberList;
     Button logout;
     TextView textView_notice;
@@ -71,7 +72,6 @@ public class HomeActivity extends AppCompatActivity {
     String knock3 = " · ";
     String room_id;
     MyInformation myInfo;
-    float [] homeBlueColor = {214,32,93};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,19 +219,6 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result){
 
-            if(notice1.length()>30){
-                notice1 = notice1.substring(0, 30);
-                notice1 += "…";
-            }
-            if(notice2.length()>30){
-                notice2 = notice2.substring(0, 30);
-                notice2 += "…";
-            }
-            if(notice3.length()>30){
-                notice3 = notice3.substring(0, 30);
-                notice3 += "…";
-            }
-
             textView_notice.setText(notice1);
             textView_notice2.setText(notice2);
             textView_notice3.setText(notice3);
@@ -320,18 +307,6 @@ public class HomeActivity extends AppCompatActivity {
                         knock3+=allKnocks.get(i).getContent();
                     }
                     else break;
-                }
-                if(knock1.length()>30){
-                    knock1 = knock1.substring(0, 30);
-                    knock1 += "…";
-                }
-                if(knock2.length()>30){
-                    knock2 = knock2.substring(0, 30);
-                    knock2 += "…";
-                }
-                if(knock2.length()>30){
-                    knock2 = knock2.substring(0, 30);
-                    knock2 += "…";
                 }
 
                 textView_knock1.setText(knock1);

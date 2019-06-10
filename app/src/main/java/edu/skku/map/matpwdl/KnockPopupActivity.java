@@ -2,6 +2,7 @@ package edu.skku.map.matpwdl;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,8 @@ public class KnockPopupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _KnockPopupActivity = KnockPopupActivity.this;
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.KnockOrange)));
+        setTitle( "KNOCK MESSAGE" );
         setContentView(R.layout.activity_knock_popup);
 
         tvKnockPopupContnet = findViewById(R.id.textView_KnockPopupContnet);

@@ -52,8 +52,8 @@ public class AddEditRuleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_rule);
         rPostReference = FirebaseDatabase.getInstance().getReference();
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
-        setTitle( "Rule" );
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.DefaultBlue)));
+        setTitle( "RULE" );
         Intent intent = getIntent();
 
         button_addMember = findViewById(R.id.button_addmember);

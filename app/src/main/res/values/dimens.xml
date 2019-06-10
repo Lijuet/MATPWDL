@@ -5,5 +5,5 @@
     <dimen name="design_fab_image_size" tools:override="true">57dp</dimen>
     <dimen name="button_defualt" tools:override="true">20dp</dimen>
     <dimen name="textView_Title" tools:override="true">20dp</dimen>
-    <dimen name="textView_homeContent">15dp</dimen>
+    <dimen name="textView_homeContent">17dp</dimen>
 </resources>

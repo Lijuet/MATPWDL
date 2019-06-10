@@ -42,8 +42,8 @@ public class SendKnockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_knock);
         float [] hsv = {193, 100, 100};
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
-        setTitle( "똑똑똑" );
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.KnockOrange)));
+        setTitle( "SEND KNOCK" );
 
         //find id
         tvMyKnockReciever = findViewById(R.id.autoText_MyKnockReciever);

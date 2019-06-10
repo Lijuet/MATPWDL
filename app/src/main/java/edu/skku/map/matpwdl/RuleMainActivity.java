@@ -38,7 +38,6 @@ public class RuleMainActivity extends AppCompatActivity {
     String room_id;
 
     MyInformation myInfo;
-    float [] hsv = {333, 100, 100};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +47,8 @@ public class RuleMainActivity extends AppCompatActivity {
         Intent myIntent = getIntent();
         final String[] arr = myIntent.getStringArrayExtra("arr");
         room_id = myIntent.getStringExtra("room_id");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
-        setTitle( "Rule" );
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.DefaultBlue)));
+        setTitle( "RULE" );
         //Initialize MyInformation
         Intent intent = getIntent();
         myInfo = (MyInformation) intent.getSerializableExtra("myInfo");

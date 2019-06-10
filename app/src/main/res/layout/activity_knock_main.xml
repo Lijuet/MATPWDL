@@ -21,7 +21,8 @@
             android:text="@string/mainKnockViewTitle"
             android:textSize="25dp"
             android:textColor="@android:color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
         <ListView
             android:id="@+id/listView_MainKnockList"
             android:layout_width="match_parent"
@@ -48,7 +49,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="10dp"/>
 
         <ListView
             android:id="@+id/listView_MyKnockList"
@@ -69,10 +71,11 @@
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:backgroundTint="@android:color/holo_blue_light"
+            app:srcCompat="@drawable/imgbtn_addknock"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:backgroundTint="@android:color/transparent" />
 
     </android.support.constraint.ConstraintLayout>
 

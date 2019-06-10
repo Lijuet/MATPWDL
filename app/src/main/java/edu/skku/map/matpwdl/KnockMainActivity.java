@@ -36,7 +36,6 @@ public class KnockMainActivity extends AppCompatActivity {
     private DatabaseReference kPostReference;
     ListView lvAllKnockList, lvMyKnockList;
     FloatingActionButton btnMakeKnock;
-    float [] hsv = {193, 100, 100};
     KnockAdapter allKnockAdapter;
     KnockAdapter myKnockAdapter;
     ArrayList<Knock> allKnocks;
@@ -48,8 +47,8 @@ public class KnockMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knock_main);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
-        setTitle( "똑똑똑" );
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.KnockOrange)));
+        setTitle( "KNOCK" );
         //Initialize MyInformation
         myInfo = new MyInformation();
         Intent intent = getIntent();

@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setTitle( "Login" );
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.DefaultGray)));
+        setTitle( "LOGIN" );
         kPostReference = FirebaseDatabase.getInstance().getReference();
         intent = new Intent(LoginActivity.this, HomeActivity.class);
         IDeditText = (EditText) findViewById(R.id.editid);

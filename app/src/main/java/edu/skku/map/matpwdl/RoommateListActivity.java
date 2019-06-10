@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -38,13 +39,12 @@ public class RoommateListActivity extends AppCompatActivity{
     private String mc;
     boolean existID = false;
 
-    float [] hsv = {34, 100, 100};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_roommate_list );
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
-        setTitle( "Roommate" );
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.RoommatesBeige)));
+        getSupportActionBar().setTitle(Html.fromHtml("<font color=\"black\">" + "ROOMMATE" + "</font>"));
         data = new ArrayList<String>();
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
 

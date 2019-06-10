@@ -5,5 +5,9 @@
     <color name="colorAccent">#D81B60</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
-    <color name="HomeBlue">#A4C4EE</color>
+    <color name="HomeBlue">#2186C4</color>
+    <color name="KnockOrange">#FF8066</color>
+    <color name="RoommatesBeige">#FFF6E6</color>
+    <color name="DefaultGray">#3F464D</color>
+    <color name="DefaultBlue">#7ECEFC</color>
 </resources>

@@ -53,7 +53,9 @@
             app:layout_constraintVertical_bias="0.15"
             app:layout_constraintWidth_percent="0.45"
             tools:layout_editor_absoluteX="38dp"
-            tools:layout_editor_absoluteY="33dp" />
+            tools:layout_editor_absoluteY="33dp"
+            android:textColor="@color/DefaultBlue"
+            android:textSize="@dimen/textView_Title"/>
 
         <TextView
             android:id="@+id/textView_day"
@@ -70,13 +72,15 @@
             app:layout_constraintVertical_bias="0.4"
             app:layout_constraintWidth_percent="0.15"
             tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="154dp" />
+            tools:layout_editor_absoluteY="154dp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/textView_time"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="시간"
+            android:textColor="@color/black"
             android:gravity="center|center_horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.2"
@@ -104,7 +108,8 @@
             app:layout_constraintVertical_bias="0.9"
             app:layout_constraintWidth_percent="0.15"
             tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="230dp" />
+            tools:layout_editor_absoluteY="230dp"
+            android:textColor="@color/black"/>
 
         <CheckBox
             android:id="@+id/checkBox_repeat"
@@ -148,7 +153,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_editor_absoluteX="166dp"
-            tools:layout_editor_absoluteY="118dp" />
+            tools:layout_editor_absoluteY="118dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/editText_minute"
@@ -181,7 +187,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_editor_absoluteX="294dp"
-            tools:layout_editor_absoluteY="119dp" />
+            tools:layout_editor_absoluteY="119dp"
+            android:textColor="@color/black" />
 
         <LinearLayout
             android:id="@+id/LinearLayout_days"
@@ -199,6 +206,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="월"
+                android:textColor="@color/black"
                 />
 
             <CheckBox
@@ -206,42 +214,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="화" />
+                android:text="화"
+                android:textColor="@color/black" />
 
             <CheckBox
                 android:id="@+id/checkBox_wed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="수" />
+                android:text="수"
+                android:textColor="@color/black" />
 
             <CheckBox
                 android:id="@+id/checkBox_thu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="목" />
+                android:text="목"
+                android:textColor="@color/black" />
 
             <CheckBox
                 android:id="@+id/checkBox_fri"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="금" />
+                android:text="금"
+                android:textColor="@color/black" />
 
             <CheckBox
                 android:id="@+id/checkBox_sat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="토" />
+                android:text="토"
+                android:textColor="@color/black"/>
 
             <CheckBox
                 android:id="@+id/checkBox_sun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="일" />
+                android:text="일"
+                android:textColor="@color/black" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
@@ -257,7 +271,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.965"
-        app:layout_constraintWidth_percent="0.3" />
+        app:layout_constraintWidth_percent="0.3"
+        android:background="@color/DefaultBlue"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/button_save"
@@ -272,7 +288,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         tools:layout_editor_absoluteX="199dp"
-        tools:layout_editor_absoluteY="359dp" />
+        tools:layout_editor_absoluteY="359dp"
+        android:background="@color/DefaultBlue"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/editText_ruleTitle"
