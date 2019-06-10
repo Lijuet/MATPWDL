@@ -43,12 +43,10 @@ public class LoginActivity extends AppCompatActivity {
     Intent intent;
     MyInformation myInfo;
     String defaultValue;
-    float [] hsv = {224, 55, 25};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable( Color.HSVToColor( hsv )));
         setTitle( "Login" );
         kPostReference = FirebaseDatabase.getInstance().getReference();
         intent = new Intent(LoginActivity.this, HomeActivity.class);
