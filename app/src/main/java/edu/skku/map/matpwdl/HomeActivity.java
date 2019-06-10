@@ -1,6 +1,5 @@
 package edu.skku.map.matpwdl;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,17 +16,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -76,13 +69,13 @@ public class HomeActivity extends AppCompatActivity {
     String knock2 = " · ";
     String knock3 = " · ";
     MyInformation myInfo;
-    float [] hsv = {224, 55, 25};
+    float [] homeBlueColor = {214,32,93};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.HSVToColor( hsv )));
-        setTitle( "Home" );
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.HomeBlue)));
+        setTitle( "HOME" );
         constraint_notice = findViewById(R.id.constraint_notice);
         constraint_rule = findViewById(R.id.constraint_rule);
         constraint_knock = findViewById(R.id.constraint_knock);
