@@ -34,8 +34,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+<<<<<<< HEAD
 public class LoginActivity extends AppCompatActivity{
     //private DatabaseReference kPostReference, kPostReference2;  TODO MYINFO 초기화
+=======
+public class LoginActivity extends AppCompatActivity {
+    private DatabaseReference kPostReference, kPostReference2;  //TODO MYINFO 초기화
+>>>>>>> 238e29d362a7481c3e30afacecd17530fda18673
     EditText IDeditText, PWeditText;
     Button button;
     String id, pw, shakey, data, memberID, login, count;
@@ -67,11 +72,18 @@ public class LoginActivity extends AppCompatActivity{
         button.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 id = IDeditText.getText().toString();
                 pw = PWeditText.getText().toString();
+=======
+                id = IDeditText.getText().toString().trim();
+                pw = PWeditText.getText().toString().trim();
+                login = id +pw;
+>>>>>>> 238e29d362a7481c3e30afacecd17530fda18673
                 if ((id.length() * pw.length()) == 0) {
                     Toast.makeText( LoginActivity.this, "Type all info...", Toast.LENGTH_SHORT );
                 } else {
+<<<<<<< HEAD
                     for (i =1;i<3;i++){
                         count = String.valueOf( i );
                         postRef = FirebaseDatabase.getInstance().getReference().child( "MEMBER" ).child("member"+count);
@@ -109,6 +121,32 @@ public class LoginActivity extends AppCompatActivity{
                                     } );
                                 } else {
                                     Toast.makeText( LoginActivity.this, "failed id", Toast.LENGTH_SHORT );
+=======
+                    postRef.orderByChild("IDPW").equalTo(login).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        myInfo = dataSnapshot.getValue(MyInformation.class);
+                                        Log.d("LoginTest",myInfo.getRoomID()+myInfo.getName());
+                                        //getFirebaseDatabase();
+                                        /*shakey = id + " " + pw;
+                                        Log.d("shakey", shakey);
+                                        // Save LOGIN information in shared preferences
+                                        editor.putString("login", shakey);
+                                        editor.commit(); */
+                                        //intent.putExtra(myInfo);
+                                        startActivity(intent);
+                                        finish();
+                                        //로그인 성공//
+/*<<<<<<< HEAD======= */
+/* >>>>>>> ff4194d15ff9d6d521bbe2d1cc6752601d90e727 */
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "failed id", Toast.LENGTH_SHORT);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+>>>>>>> 238e29d362a7481c3e30afacecd17530fda18673
                                 }
                             }
 
@@ -126,9 +164,13 @@ public class LoginActivity extends AppCompatActivity{
 
         } );
     }
+<<<<<<< HEAD
 }
 
 /* TODO MYINFO 초기화
+=======
+
+>>>>>>> 238e29d362a7481c3e30afacecd17530fda18673
     private void getFirebaseDatabase() {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -158,4 +200,9 @@ public class LoginActivity extends AppCompatActivity{
         };
         kPostReference.child("ROOM").child("room"+myInfo.getRoomID()).child("room_info").addValueEventListener(postListener);
     }
+<<<<<<< HEAD
     */
+=======
+
+}
+>>>>>>> 238e29d362a7481c3e30afacecd17530fda18673
