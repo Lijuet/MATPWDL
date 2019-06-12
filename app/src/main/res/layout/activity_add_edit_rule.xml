@@ -45,7 +45,7 @@
             android:text="시간 설정"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.105"
+            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -190,8 +190,7 @@
             tools:layout_editor_absoluteY="119dp"
             android:textColor="@color/black" />
 
-        <LinearLayout
-            android:id="@+id/LinearLayout_days"
+        <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
@@ -200,63 +199,70 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/textView_day">
 
-            <CheckBox
-                android:id="@+id/checkBox_mon"
+            <LinearLayout
+                android:id="@+id/LinearLayout_days"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="월"
-                android:textColor="@color/black"
-                />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <CheckBox
-                android:id="@+id/checkBox_tue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="화"
-                android:textColor="@color/black" />
+                <CheckBox
+                    android:id="@+id/checkBox_mon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="월"
+                    android:textColor="@color/black" />
 
-            <CheckBox
-                android:id="@+id/checkBox_wed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="수"
-                android:textColor="@color/black" />
+                <CheckBox
+                    android:id="@+id/checkBox_tue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="화"
+                    android:textColor="@color/black" />
 
-            <CheckBox
-                android:id="@+id/checkBox_thu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="목"
-                android:textColor="@color/black" />
+                <CheckBox
+                    android:id="@+id/checkBox_wed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="수"
+                    android:textColor="@color/black" />
 
-            <CheckBox
-                android:id="@+id/checkBox_fri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="금"
-                android:textColor="@color/black" />
+                <CheckBox
+                    android:id="@+id/checkBox_thu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="목"
+                    android:textColor="@color/black" />
 
-            <CheckBox
-                android:id="@+id/checkBox_sat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="토"
-                android:textColor="@color/black"/>
+                <CheckBox
+                    android:id="@+id/checkBox_fri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="금"
+                    android:textColor="@color/black" />
 
-            <CheckBox
-                android:id="@+id/checkBox_sun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="일"
-                android:textColor="@color/black" />
-        </LinearLayout>
+                <CheckBox
+                    android:id="@+id/checkBox_sat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="토"
+                    android:textColor="@color/black" />
+
+                <CheckBox
+                    android:id="@+id/checkBox_sun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="일"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
     </android.support.constraint.ConstraintLayout>
 
     <Button

@@ -9,34 +9,34 @@
     android:layout_margin="15dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView_home_notice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="기숙사 공지사항"
-        android:textSize="@dimen/textView_Title"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
-    <LinearLayout
-        android:id="@+id/constraint_notice"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/layout_boarder"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="20dp">
+        android:layout_height="match_parent">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView_home_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="기숙사 공지사항"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textView_Title"
+                android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/constraint_notice"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_height="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/layout_boarder"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView_notice"
@@ -72,39 +72,26 @@
                     android:textSize="@dimen/textView_homeContent" />
 
             </LinearLayout>
-        </ScrollView>
 
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/textView_home_rule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="규칙"
-        android:textSize="@dimen/textView_Title"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
-    <LinearLayout
-        android:id="@+id/constraint_rule"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/layout_boarder"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="20dp">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            <TextView
+                android:id="@+id/textView_home_rule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="규칙"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textView_Title"
+                android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/constraint_rule"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_height="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/layout_boarder"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView_rule1"
@@ -138,41 +125,28 @@
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/textView_homeContent" />
+
             </LinearLayout>
-        </ScrollView>
 
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/textView_home_knock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="똑똑똑"
-        android:textSize="@dimen/textView_Title"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginBottom="20dp"/>
-
-    <LinearLayout
-        android:id="@+id/constraint_knock"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/layout_boarder"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="10dp">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            <TextView
+                android:id="@+id/textView_home_knock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="똑똑똑"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textView_Title"
+                android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/constraint_knock"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/layout_boarder"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView_knock1"
@@ -206,39 +180,44 @@
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/textView_homeContent" />
+
             </LinearLayout>
-        </ScrollView>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:id="@+id/button_logout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="로그아웃"
-            android:background="@color/HomeBlue"
-            android:textColor="@color/white"
-            android:textSize="@dimen/button_defualt"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-        <Button
-            android:id="@+id/button_toMemberList"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/HomeBlue"
-            android:text="멤버 관리"
-            android:textColor="@color/white"
-            android:textSize="@dimen/button_defualt"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/button_logout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/HomeBlue"
+                    android:text="로그아웃"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button_defualt" />
+
+                <Button
+                    android:id="@+id/button_toMemberList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/HomeBlue"
+                    android:text="멤버 관리"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/button_defualt" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>
