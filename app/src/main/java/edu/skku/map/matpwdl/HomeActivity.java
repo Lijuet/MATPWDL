@@ -44,6 +44,7 @@ import java.util.Map;
 public class HomeActivity extends AppCompatActivity {
 
     private Intent serviceIntent;
+    Intent sIntent;
     private DatabaseReference rPostReference  = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference kPostReference = FirebaseDatabase.getInstance().getReference();
     ArrayList<ListViewRuleItem> rules = new ArrayList<>();
@@ -168,6 +169,7 @@ public class HomeActivity extends AppCompatActivity {
                 loginPref.edit().remove("firstLoginFlag").commit();
                 loginPref.edit().remove("ID").commit();
                 loginPref.edit().remove("PW").commit();
+                stopService(sIntent);
                 Intent intent = new Intent(HomeActivity.this,LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -184,7 +186,7 @@ public class HomeActivity extends AppCompatActivity {
         getFirebaseDatabaseKnock();
 
         //알림
-        Intent sIntent = new Intent(HomeActivity.this,RuleNoticeService.class);
+        sIntent = new Intent(HomeActivity.this,RuleNoticeService.class);
         sIntent.putExtra("room_id",myInfo.getRoomID());
         startService(sIntent);
     }

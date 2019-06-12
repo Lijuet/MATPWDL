@@ -72,6 +72,10 @@ public class RuleNoticeService extends Service {
         //return super.onStartCommand(intent, flags, startId);
     }
 
+    @Override
+    public void onDestroy() {
+        thread.stopForever();
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
