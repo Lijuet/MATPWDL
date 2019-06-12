@@ -49,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseReference kPostReference = FirebaseDatabase.getInstance().getReference();
     ArrayList<ListViewRuleItem> rules = new ArrayList<>();
     ArrayList<Knock> allKnocks = new ArrayList<>();
-    ArrayList<Knock> newKnocks = new ArrayList<>();
+    //ArrayList<Knock> newKnocks = new ArrayList<>();
     Calendar calender = Calendar.getInstance();
 
     LinearLayout constraint_notice;
@@ -296,7 +296,23 @@ public class HomeActivity extends AppCompatActivity {
                     knock.setRead(getKnock.getRead());
                     allKnocks.add(knock);
                     if(info[2].equals(myInfo.getMemberid()) && getKnock.getRead() == 0){
-                        newKnocks.add(knock);
+                        PowerManager manager = (PowerManager)getSystemService(Context.POWER_SERVICE);
+                        boolean bScreenOn = manager.isScreenOn();
+
+                        Intent intentPopup = new Intent(getApplicationContext(), KnockPopupActivity.class);
+                        intentPopup.putExtra("NEWKNOCK", knock);
+                        intentPopup.putExtra("myInfo",myInfo);
+                        if(bScreenOn){
+                            Log.d("sendMessage", "Screen ON");
+                            intentPopup.putExtra("SCREENON",true);
+                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentPopup);
+                        }else{
+                            Log.d("sendMessage", "Screen OFF");
+                            intentPopup.putExtra("SCREENON",false);
+                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intentPopup);
+                        }
                     }
                 }
                 for(int i=allKnocks.size()-1; i>0; i--){
@@ -324,28 +340,7 @@ public class HomeActivity extends AppCompatActivity {
                 textView_knock2.setText(knock2);
                 textView_knock3.setText(knock3);
 
-                if(newKnocks.size() != 0){
-                    for(Knock temp : newKnocks){
-                        PowerManager manager = (PowerManager)getSystemService(Context.POWER_SERVICE);
-                        boolean bScreenOn = manager.isScreenOn();
 
-                        Intent intentPopup = new Intent(getApplicationContext(), KnockPopupActivity.class);
-                        intentPopup.putExtra("NEWKNOCK", temp);
-                        intentPopup.putExtra("myInfo",myInfo);
-                        if(bScreenOn){
-                            Log.d("sendMessage", "Screen ON");
-                            intentPopup.putExtra("SCREENON",true);
-                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intentPopup);
-                        }else{
-                            Log.d("sendMessage", "Screen OFF");
-                            intentPopup.putExtra("SCREENON",false);
-                            intentPopup.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intentPopup);
-                        }
-                        newKnocks.remove(temp);
-                    }
-                }
             }
 
             @Override
