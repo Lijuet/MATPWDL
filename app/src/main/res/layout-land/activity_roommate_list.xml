@@ -64,8 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:ems="10"
-                android:hint="input member's id"
-                android:inputType="number"/>
+                android:hint="input member's id"/>
             <Button
                 android:id="@+id/listbtn"
                 android:layout_width="0dp"
